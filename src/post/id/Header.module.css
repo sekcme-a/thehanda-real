@@ -1,0 +1,121 @@
+.path_container{
+  display: flex;
+  align-items: center;
+}
+.path_container h1{
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.path_item{
+  display: flex;
+  align-items: center;
+}
+
+.path_item p{
+  padding: 0 5px;
+  font-size: 14px;
+}
+
+.path_item h2{
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button_container{
+  display: flex;
+  padding: 15px 0;
+  font-size: 13px;
+  font-weight: bold;
+  border-bottom: 1px solid rgb(200,200,200);
+  position: relative;
+  align-items: center;
+}
+
+.main_button{
+  padding: 8px 10px;
+  background-color: #7938db;
+  color: white;
+  border-radius: 4px;
+  margin: 0 5px;
+  cursor: pointer;
+  height: fit-content;
+}
+
+.button_container .button{
+  padding: 8px 10px;
+  background-color: #e7e7e7;
+  border-radius: 4px;
+  margin: 0 5px;
+  cursor: pointer;
+  height: fit-content;
+}
+
+
+.content_container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content_container .item{
+  width: 150px;
+  height: 180px;
+  border-radius: 3px;
+  margin: 10px;
+  cursor: pointer;
+  position: relative;
+}
+.checkbox_container{
+  position: absolute;
+  top: -5px;
+  left: -5px;
+}
+.condition{
+  position: absolute;
+  top: 7px;
+  right: 5px;
+  font-size: 13px;
+  text-align: end !important;
+}
+.content_container .item .item_img_container{
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #7938db;
+  border: 1px solid rgb(222,222,222);
+  border-radius: 5px;
+}
+.item_img_container img{
+  width: 100%;
+}
+.item_loading{
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #7938db;
+}
+.content_container .item p{
+  width: 150px;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+
+.dialog_container{
+  padding: 25px 30px;
+}
+.dialog_container h1{
+  margin-bottom: 15px;
+}
+
+
+.change_location_container{
+  position: absolute;
+  top: 15px;
+  right: 0;
+}

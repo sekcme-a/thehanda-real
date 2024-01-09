@@ -1,0 +1,30 @@
+
+
+.main_container{
+
+}
+
+.main_container h1{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.main_container h2{
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.main_container h3{
+  font-size: 12px;
+  margin-top: 5px;
+}
+.main_container h4{
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.main_container h5{
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 20px;
+}

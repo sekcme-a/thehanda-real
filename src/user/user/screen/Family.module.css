@@ -1,0 +1,23 @@
+
+.empty{
+  text-align: center;
+}
+
+.card h1{
+  font-size: 14px;
+  font-weight: bold;
+
+}
+.card h2{
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.card strong{
+  font-size: 13px;
+  margin-right: 5px;
+}
+.card h3{
+  font-size: 15px;
+  margin-top: 5px;
+}

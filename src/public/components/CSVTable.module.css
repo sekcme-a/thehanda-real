@@ -1,0 +1,94 @@
+
+
+.main_container{
+  /* min-width: max-content; */
+  width: 100%;
+  overflow-x: scroll;
+  max-height: 480px;
+  overflow-y: scroll;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: white;
+}
+
+.main_container table {
+    border: 1px #a39485 solid;
+    font-size: .9em;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    width:100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+    
+  .main_container thead {
+    font-weight: bold;
+    color: #fff;
+    background: #73685d;
+  }
+  .main_container tr{
+    cursor: pointer;
+  }
+    
+  .main_container td {
+    padding: 1em .7em;
+    vertical-align: middle;
+  }
+  .main_container th{
+    text-align: center;
+    width: max-content;
+    padding: 0em .7em;
+    vertical-align: middle;
+  }
+  .main_container .check{
+    width: 10px !important;
+    padding: 0 0 !important ; 
+    text-align: start;
+  }
+    
+  .main_container td {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    background: #fff;
+    text-align: center;
+  }
+  
+  .main_container a {
+    color: #73685d;
+  }
+
+  .part_container{
+    display: flex;
+    align-items: center;
+  }
+  .part_container h1{
+    color: blue;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  .part_container h2{
+    color: red;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .switch_container{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .switch_container p{
+    font-size: 14px;
+  }
+
+
+  .remote_container{
+    display: flex;
+    align-items: center;
+  }
+  .remote_container p{
+    font-size: 14px;
+    margin-left: 10px;
+  }

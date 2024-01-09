@@ -1,0 +1,31 @@
+
+
+.login_container{
+  background-color: white;
+  /* height: 100%; */
+  height: calc(100vh - 200px);
+  padding: 120px 50px;
+
+}
+.login_container h2{
+  font-weight: bold;
+  font-size: 23px;
+  color: #666;
+}
+.login_container h3{
+  color: #444;
+  font-size: 13px;
+  margin-top: 16px;
+}
+.login_container h4{
+  color: red;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}

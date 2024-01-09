@@ -1,10 +1,9 @@
-import styles from "../styles/pageHeader.module.css"
 
-const PageHeader = ({ title, subtitle, mt}) => {
+const PageHeader = ({ title, subtitle, mt="20px"}) => {
   return (
-    <div className={styles.main_container} style={{marginTop: mt}}>
-      <h1>{title}</h1>
-      <p>{subtitle}</p>
+    <div style={{marginTop: mt}}>
+      <h1 style={{fontSize:'20px', marginBottom:"8px"}}>{title}</h1>
+      <p style={{fontSize:"14px", marginBottom:"10px", whiteSpace:"pre-line", lineHeight:"1.5"}}>{subtitle}</p>
     </div>
   )
 }

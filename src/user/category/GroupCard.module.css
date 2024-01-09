@@ -1,0 +1,29 @@
+.card h1{
+  font-size: 18px;
+  font-weight:bold;
+}
+
+.card h2{
+  margin-top: 10px;
+  font-size: 15px;
+  display: -webkit-box; /* 웹킷 브라우저에 대한 지원 */
+  -webkit-line-clamp: 3; /* 표시할 줄 수 */
+  -webkit-box-orient: vertical; /* 수직 방향으로 요소를 나열 */
+  overflow: hidden; /* 넘치는 텍스트 감춤 */
+}
+
+.card h3{
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.card h4{
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.button_container{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}

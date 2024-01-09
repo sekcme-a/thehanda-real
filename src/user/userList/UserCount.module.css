@@ -1,0 +1,19 @@
+.left{
+  margin-right: 50px;
+}
+.left h1{
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+.left h2{
+  font-size: 15px;
+}
+
+.left p{
+  font-size: 20px;
+  margin-top: 25px;
+}
+
+.right{
+  font-size:30px;
+}

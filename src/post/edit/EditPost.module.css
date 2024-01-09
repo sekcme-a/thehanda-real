@@ -1,0 +1,24 @@
+.item_container{
+  display: flex;
+  align-items: center;
+  /* margin: 10px 0; */
+}
+.item_container h1{
+  font-size: 15px;
+  width: 100px;
+}
+
+
+.checkbox{
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+.checkbox p{
+  font-size: 14px;
+}
+
+.border{
+  margin: 20px 0;
+  border: .5px solid rgb(211,211,211);
+}

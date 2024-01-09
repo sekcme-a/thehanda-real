@@ -1,0 +1,27 @@
+.team_list{
+  max-height: 200px;
+  width: 300px;
+  overflow-y: scroll;
+  margin: 5px 0;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid rgb(233,233,233);
+  border-radius: 5px;
+  padding: 5px 0;
+}
+.team_list li{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgb(222,222,222);
+  cursor: pointer;
+  transition: .3s;
+}
+.team_list li:hover{
+  background-color: rgb(241,241,241);
+}
+.team_list li img{
+  margin-right: 15px;
+
+}

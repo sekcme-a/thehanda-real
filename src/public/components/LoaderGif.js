@@ -1,5 +1,5 @@
 import Image from "next/image"
-import loader from "public/loader_multiculture.gif"
+// import loader from "public/loader_multiculture.gif"
 
 const LoaderGif = (props) => {
 
@@ -17,7 +17,7 @@ const LoaderGif = (props) => {
   }
   return (
     <div style={container}>
-      <Image src={loader} alt="loader"/>
+      <Image src="/images/loader_multiculture.gif" alt="loader" width={400} height={300}/>
     </div>
   )
 }
