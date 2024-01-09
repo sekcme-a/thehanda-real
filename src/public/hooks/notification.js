@@ -62,6 +62,7 @@ export const sendMultipleNotification = (uidList, title, message, type, link, li
         if(!result1){
           alert("포인트가 부족합니다.")
           reject("no remaining point")
+          return
         }
       }
       const result = await Promise.all(uidList.map(async (uid) => {

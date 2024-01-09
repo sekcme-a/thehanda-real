@@ -1,7 +1,7 @@
 import useData from "context/data"
 import { firestore as db } from "firebase/firebase"
 
-const POINT_PER_MESSAGE=7
+const POINT_PER_MESSAGE = 8
 
 //count는 알림 갯수
 export const checkIsValidPoint = async (teamId, count) => {

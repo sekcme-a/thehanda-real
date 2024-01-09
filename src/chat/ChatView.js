@@ -106,7 +106,15 @@ const ChatView = ({uid, userName}) =>{
     if(dates[0]===undefined){
       batch.set(db.collection("user").doc(uid).collection("chat").doc(team.teamId).collection("date").doc(YYYYMM), {
         date: new Date(),
-        chat: [{text:input, type:"center", createdAt: new Date(), _id: new Date().getTime()}]
+        chat: [
+          {
+            text:input, 
+            type:"center", 
+            createdAt: new Date(), 
+            _id: new Date().getTime(),
+            
+          }
+        ]
       })
     }
     else{

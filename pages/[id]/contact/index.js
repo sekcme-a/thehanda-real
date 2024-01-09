@@ -56,8 +56,8 @@ const Contact = () => {
           return {
             ...doc.data(),
             id: doc.id,
-            displayName: userDoc.data().basicProfile.displayName,
-            realName: userDoc.data().basicProfile.realName,
+            displayName: userDoc.data().basicProfile?.displayName,
+            realName: userDoc.data().basicProfile?.realName,
             photoUrl: userDoc.data().photoUrl || "", 
           };
         } else 
@@ -219,10 +219,10 @@ const Contact = () => {
              sortedData.map((item, index) => {
               if(item)
               return(
-                <li key={index} onClick={()=>onItemClick(index)}>
+                <li key={index} onClick={()=>{if(item.displayName) onItemClick(index)}}>
                   <div className={styles.item_left}>
                     <Avatar alt={item.displayName} src={item.photoUrl} sx={{width: 31, height: 31}}/>
-                    <h1>{item.displayName}</h1>
+                    <h1>{item.displayName ?? "삭제된 유저"}</h1>
                     <p>{item.mode==="program" && "[프로그램 문의]"}{item.title}</p>
                   </div>
 
