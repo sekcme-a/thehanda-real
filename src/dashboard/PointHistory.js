@@ -43,7 +43,7 @@ const PointHistory = () => {
 
   return(
     <div  className={styles.main_container}>
-      <p>{`이번달 포인트 사용 현황 (${YYYYMMWithSlash})`} <strong onClick={()=>router.push(`/${team.teamId}/points`)}>자세히 보기</strong></p>
+      <p>{`이번달 포인트 사용 현황 (${YYYYMMWithSlash})`} <strong onClick={()=>router.push(`/${team.teamId}/point`)}>자세히 보기</strong></p>
       <CSVTable
         title={`${YYYYMMWithSlash} 포인트 사용 현황`}
         headers={HEADERS}
