@@ -11,6 +11,10 @@
   background-color: white;
 }
 
+.main_container p{
+  margin: 10px;
+}
+
 .main_container table {
     border: 1px #a39485 solid;
     font-size: .9em;
@@ -38,7 +42,7 @@
   .main_container th{
     text-align: center;
     width: max-content;
-    padding: 0em .7em;
+    padding: 10px .7em;
     vertical-align: middle;
   }
   .main_container .check{

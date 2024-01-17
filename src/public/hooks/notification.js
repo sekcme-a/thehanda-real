@@ -19,6 +19,7 @@ export const sendNotification = (uid, title, message, type, link, linkDetail) =>
       }
       const userDoc = await db.collection("user").doc(uid).get()
       if(userDoc.exists){
+        console.log(userDoc.data())
         if(userDoc.data().pushToken==="" || !userDoc.data().pushToken)
           reject({uid: uid, title: "전송 실패", text: `해당 유저의 전송 토큰을 조회할 수 없습니다. 해당 유저가 알림 권한을 차단했을 가능성이 높습니다.`})
         else if(!userDoc.data()[type])
@@ -59,12 +60,19 @@ export const sendMultipleNotification = (uidList, title, message, type, link, li
       //모든 sendMulitple 함수에 teamId 붙힌 후엔 if(teamId) 삭제
       if(teamId){
         const result1 = await checkIsValidPoint(teamId, uidList.length)
-        if(!result1){
-          alert("포인트가 부족합니다.")
-          reject("no remaining point")
+        if(result1==="not enough points"){
+          reject( "not enough points")
+          return
+        } else if(result1==="denied"){
+          reject("denied")
+          return
+        } else if( result1==="no point data"){
+          reject("no point data")
           return
         }
       }
+
+
       const result = await Promise.all(uidList.map(async (uid) => {
         try {
           const res = await sendNotification(uid, title, message, type, link, linkDetail);

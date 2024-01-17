@@ -105,7 +105,7 @@ const Memo = ({data}) => {
         label="유저 메모"
         multiline
         fullWidth
-        rows={4}
+        rows={10}
         value={text}
         placeholder="유저 메모를 입력하세요!"
         onChange={(e)=>setText(e.target.value)}

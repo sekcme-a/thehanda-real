@@ -45,6 +45,7 @@ import CurrencyRubleIcon from '@mui/icons-material/CurrencyRuble';
 import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+
 const Navbar = () => {
   const router = useRouter()
   const {id} = router.query
@@ -96,6 +97,19 @@ const Navbar = () => {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
+        <ListItemButton onClick={()=>onClick("dashboard")}>
+          <ListItemIcon>
+            <DashboardRoundedIcon />
+          </ListItemIcon>
+          <ListItemText primary="대쉬보드" />
+        </ListItemButton>
+
+        <ListItemButton onClick={()=>onClick("point")}>
+          <ListItemIcon>
+            <CurrencyRubleIcon />
+          </ListItemIcon>
+          <ListItemText primary="한다 포인트" />
+        </ListItemButton>
 
       <ListItemButton onClick={()=>handleItemClick(1)}>
         <ListItemIcon>
@@ -255,12 +269,6 @@ const Navbar = () => {
 
 
 
-        <ListItemButton onClick={()=>onClick("dashboard")}>
-          <ListItemIcon>
-            <DashboardRoundedIcon />
-          </ListItemIcon>
-          <ListItemText primary="대쉬보드" />
-        </ListItemButton>
 
 
         <ListItemButton onClick={()=>onClick("chat")}>

@@ -52,6 +52,8 @@ const AskTeam = (props) => {
   const router = useRouter()
   const [team, setTeam] = useState("")
   const [isLoading, setIsLoading]= useState(true)
+
+  const [clickCount, setClickCount] = useState(0)
   const handleChange = (event) => {
     setTeam(event.target.value);
   };
@@ -90,6 +92,16 @@ const AskTeam = (props) => {
   const onTeamClick = (id) => {
     router.push(`/${id}/dashboard`)
   }
+
+
+  const onAdminButtonClick = () => {
+    setClickCount(prevCount => prevCount+1)
+    if(clickCount>=7) router.push("/super_admin/home")
+    setTimeout(()=> {
+      setClickCount(prevCount=>prevCount-1)
+    },3000)
+  }
+
   
   if(userData)
   return (
@@ -130,6 +142,7 @@ const AskTeam = (props) => {
           </StyledGrid>
         </Grid>
       </CardContent>
+      <div style={{width:"10px", height:"10px", position:"absolute", right:"-10px", bottom:"-10px"}} onClick={onAdminButtonClick}/>
     </Card>
   )
 }

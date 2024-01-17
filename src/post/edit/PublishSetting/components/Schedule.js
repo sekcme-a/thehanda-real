@@ -59,7 +59,7 @@ const Schedule = ({postValues, setPostValues, calendar, setCalendar}) => {
               컬러 타입 편집
             </Button>
           </div>
-          <Calendar events={calendar} setEvents={setCalendar} editable={true} hasAddScheduleButton={true} autoUrl={`https://dahanda.netlify.app/${id}/article/${postId}`}/>
+          <Calendar events={calendar} setEvents={setCalendar} editable={true} hasAddScheduleButton={true}/>
         </>
       }
 

@@ -1,0 +1,9 @@
+
+.main_container{
+  padding: 20px 30px;
+}
+
+.main_container .item{
+  padding: 7px 0;
+  border-bottom: 1px solid rgb(222,222,222);
+}

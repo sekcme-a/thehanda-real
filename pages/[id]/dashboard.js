@@ -68,8 +68,9 @@ const Dashboard = () => {
       setIsLoading(false)
     }
 
-    fetchData()
-  },[])
+    if(team && team.teamId)
+      fetchData()
+  },[team])
 
   
   if(isLoading) return( <CircularProgress />)

@@ -42,7 +42,7 @@ const HeadingTypography = styled(Typography)(({ theme }) => ({
   }
 }))
 
-const FileUploaderRestrictions = ({setImgURL, path, imgURL, setLoading}) => {
+const FileUploaderRestrictions = ({setImgURL, path, imgURL, setLoading, recommandSize}) => {
   // ** State
   const [files, setFiles] = useState()
   const [fileListData,setFileListData] = useState([])
@@ -145,9 +145,11 @@ function formatBytes(bytes, decimals = 2) {
         <h1>썸네일 업로드</h1> */}
         <div {...getRootProps({ className: 'dropzone' })}>
           <div className={styles.dropzone_container}>
+            
             <input {...getInputProps()} />
             <h1>이곳으로 이미지 드래그 혹은 </h1><Button >파일 업로드</Button>
           </div>
+          {recommandSize && <p style={{marginTop:"7px", fontWeight:"bold", }}>권장 사이즈 {recommandSize}</p>}
         </div>
       {/* </div> */}
       {fileListData.length > 0 && <List>{fileList}</List>}

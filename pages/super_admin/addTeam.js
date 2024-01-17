@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 import { firestore as db } from "firebase/firebase"
 import { TextField, Button } from "@mui/material"
+import { Router } from "mdi-material-ui"
+import { useRouter } from "next/router"
 
 const AddTeam = () => {
+  const router = useRouter()
   //*****for inputs
   const [values, setValues] = useState({
     teamId: "",
@@ -31,6 +34,9 @@ const AddTeam = () => {
         await db.collection("team").doc(values.teamId).set({
           ...values,
           profile: "https://firebasestorage.googleapis.com/v0/b/thehanda-72f78.appspot.com/o/default%2Flogo.png?alt=media&token=09de5a4f-4087-4fdb-9511-25739612581d"
+        })
+        await db.collection("team_admin").doc(values.teamId).collection("points").doc("data").set({
+          remainPoint: 0
         })
         alert("성공적으로 생성되었습니다.")
       }
@@ -63,6 +69,14 @@ const AddTeam = () => {
         fullWidth
       >
         팀 생성
+      </Button>
+      <Button
+        variant="contained"
+        onClick={()=>router.back()}
+        sx={{mt:"20px"}}
+
+      >
+        {`< 뒤로가기`}
       </Button>
     </div>
   )

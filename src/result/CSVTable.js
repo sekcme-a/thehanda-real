@@ -29,7 +29,8 @@ checkedList, setCheckedList: useState 써서 바로 적용
 
 const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedList, setCheckedList}) => {
     const router = useRouter()
-    const {teamId} = useData()
+    const {id} = router.query
+    // const {teamId} = useData()
     const [isLoading, setIsLoading] = useState(false)
     const [rowData, setRowData] = useState([])
     const [triggerReload, setTriggerReload] = useState(true)
@@ -59,7 +60,7 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
 
 
     const onUidClick = (uid)=>{
-        router.push(`/user/${uid}`)
+        router.push(`/${id}/user/${uid}`)
     }
 
     const onYesClick = async(uid, hasPart)=>{
@@ -175,7 +176,7 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
                                 {headers.map((head, index2)=>{
                                     if(typeof item[head.key] === "string")
                                     return(
-                                        <td key={index2} onClick={()=>onUidClick(item.uid)}>
+                                        <td key={index2} onClick={()=>onUidClick(item.id)}>
                                             {item[head.key]?.length>30 ? `${item[head.key].substr(0,30)}...` : item[head.key]}
                                         </td>
                                     )

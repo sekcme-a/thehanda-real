@@ -22,14 +22,16 @@ const ThumbnailInput = ({postValues, setPostValues}) =>{
   return(
     <>
 
-      <div style={{display:"flex", alignItems:"center", margin:"10px 0"}}>
+      <div style={{display:"flex", alignItems:"center", margin:"0px 0"}}>
         <h1 style={{fontSize:"15px", width: "123px"}}>썸네일 업로드</h1>
         <DropperImage 
           setImgURL={handleThumbnailURL}
           path={`contents/${id}/${postId}`}
           imgURL={postValues.thumbnailURL}
           setLoading={setIsImgURLLoading}
+          recommandSize="1080*756"
         />
+        
         {isImgURLLoading ? 
           <CircularProgress /> :  
           postValues.thumbnailURL && 
@@ -40,8 +42,9 @@ const ThumbnailInput = ({postValues, setPostValues}) =>{
             />
           </a>
         }
+        
       </div>
-
+     
     </>
   )
 }

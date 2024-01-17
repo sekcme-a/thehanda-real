@@ -8,6 +8,7 @@ import { firestore as db } from "firebase/firebase"
 
 const titleData = {
   "/dashboard": "대쉬보드",
+  "/point": "한다 포인트",
   "/team/manageTeam" : "구성원 관리",
   "/user/userList" : "구성원 관리",
   "/user/[uid]" : "유저 정보",

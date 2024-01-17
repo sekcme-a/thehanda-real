@@ -57,7 +57,8 @@ export function DataProvider(props){
               return({
                 ...userDoc.data(),
                 ...userDoc.data().basicProfile,
-                countryFlag: userDoc.data().basicProfile.country.flag,
+                gender: userDoc.data().basicProfile.gender ==="male" ? "남자" : userDoc.data().basicProfile.gender ==="female" ? "여자" : "기타",
+                countryFlag: `${userDoc.data().basicProfile.country.flag} ${userDoc.data().basicProfile.country.text}`,
                 id: userDoc.id
               })
             })

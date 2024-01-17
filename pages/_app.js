@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
             <AuthStateChanged>
             <ThemeProvider theme={theme}>
             
-                {router.pathname.includes("auth") || router.pathname.includes("noAuthority") ? 
+                {router.pathname.includes("auth") || router.pathname.includes("noAuthority") || router.pathname.includes("super_admin") ? 
                   <Component {...pageProps} />
                   :
                   <div style={{display:"flex", width:"100%", minHeight:"100vh"}}>

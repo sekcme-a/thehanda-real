@@ -359,7 +359,7 @@ const Calendar = ({events, setEvents, editable, hasAddScheduleButton, autoUrl}) 
         <div className={styles.dialog_container}>
           
           <TextField variant="standard" sx={{mt:"5px"}} fullWidth size="small" label="제목" value={changedSelectedEvent.title} onChange={(e)=>onValuesChange("title", e.target.value)}/>
-          <TextField variant="standard" sx={{mt:"5px"}} fullWidth size="small" label="이동할 주소" placeholder="https://dahanda.netlify.app/" value={changedSelectedEvent.extendedProps?.url} onChange={(e)=>onUrlChange(e.target.value)}/>
+          {/* <TextField variant="standard" sx={{mt:"5px"}} fullWidth size="small" label="이동할 주소" placeholder="https://dahanda.netlify.app/" value={changedSelectedEvent.extendedProps?.url} onChange={(e)=>onUrlChange(e.target.value)}/> */}
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             {changedSelectedEvent.allDay ?
               <MobileDatePicker
@@ -457,9 +457,9 @@ const Calendar = ({events, setEvents, editable, hasAddScheduleButton, autoUrl}) 
           
           <TextField variant="standard" sx={{mt:"5px"}} fullWidth size="small" label="제목" value={newEvent.title} onChange={(e)=>onNewValuesChange("title", e.target.value)}/>
          
-          <TextField variant="standard" sx={{mt:"5px"}} fullWidth size="small" label="이동할 주소" placeholder="https://dahanda.netlify.app/"
+          {/* <TextField variant="standard" sx={{mt:"5px"}} fullWidth size="small" label="이동할 주소" placeholder="https://dahanda.netlify.app/"
             value={newEvent.extendedProps?.url} onChange={(e)=>onNewUrlChange(e.target.value)}
-          />
+          /> */}
          
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <MobileDateTimePicker

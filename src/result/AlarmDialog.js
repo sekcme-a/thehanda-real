@@ -28,7 +28,7 @@ const AlarmDialog = ({isDialogOpen, setIsDialogOpen, checkedList}) => {
   const onSendAlarmClick = async () => {
     if(alertInput.title==="" || alertInput.title===" ") alert("제목은 빈칸일 수 없습니다.")
     else if(alertInput.subtitle==="" || alertInput.subtitle===" ") alert("부제목은 빈칸일 수 없습니다.")
-    else if(confirm("알림을 선택한 유저들에게 전송하시겠습니까?")){
+    else{
       const batch = db.batch()
 
       checkedList.map((uid) => {
@@ -44,7 +44,6 @@ const AlarmDialog = ({isDialogOpen, setIsDialogOpen, checkedList}) => {
 
       await sendMultipleNotification(checkedList, alertInput.title, alertInput.subtitle, 'alarm_program',"","", team.teamId, userData.name)
 
-      alert("알림을 성공적으로 보냈습니다.")
         
     }
   }
