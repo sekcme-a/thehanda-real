@@ -29,8 +29,8 @@ const DeleteDialog = ({sections, setSections, setComponents, renderComponent, se
     let temp2 = []
     setIsLoading(true)
     if(!is_exist(value))
-      alert("일치하는 섹션명이 없습니다.")
-    else if(confirm("섹션을 삭제하시겠습니까?\n모든 프로그램에 해당 섹션이 지워집니다.")){
+      alert("일치하는 유형명이 없습니다.")
+    else if(confirm("유형을 삭제하시겠습니까?\n모든 프로그램에 해당 유형이 지워집니다.")){
       for(const item of sections){
         if(item.name!==value){
           temp.push(item)
@@ -48,7 +48,7 @@ const DeleteDialog = ({sections, setSections, setComponents, renderComponent, se
 
   return(
     <div style={{padding: "20px 30px", backgroundColor:"white", borderRadius:"5px "}}>
-      <h1 style={{marginBottom:"15px"}}>삭제할 섹션명을 입력해주세요</h1>
+      <h1 style={{marginBottom:"15px"}}>삭제할 유형명을 입력해주세요</h1>
       <TextField variant="standard" value={value} onChange={(e)=>setValue(e.target.value)}/>
       <Button onClick={onDeleteClick} disabled={isLoading} color="error">
         {isLoading ? "저장 중" : "삭제" }

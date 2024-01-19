@@ -22,6 +22,9 @@ const Home = () => {
       <Button {...BUTTON_STYLE} onClick={()=>router.push("/super_admin/point")}>
         포인트 관리
       </Button>
+      <Button {...BUTTON_STYLE} onClick={()=>router.push("/super_admin/notification/list")}>
+        전체공지 관리
+      </Button>
     
     
     </div>

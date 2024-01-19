@@ -11,6 +11,7 @@ import EcommerceCongratulations from "src/dashboard/EcommerceCongratulations";
 import CardStatsSmall from "src/dashboard/CardStatsSmall";
 
 import PointHistory from "src/dashboard/PointHistory"
+import AdminNotification from "src/public/components/layout/notification/AdminNotification";
 
 const Dashboard = () => {
   const {user, userData} = useUserData
@@ -77,7 +78,7 @@ const Dashboard = () => {
 
   return(
     <>
-
+       <AdminNotification />
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={3} sx={{ pt: theme => `${theme.spacing(6.25)} !important` }}>
           <CardStatsCharacter 

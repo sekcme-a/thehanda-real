@@ -20,7 +20,7 @@ const MultipleChipInput = ({postValues, setPostValues, type}) => {
       if(sectionDoc.exists)
         setSections(sectionDoc.data().data)
       else{
-        alert("섹션을 1개이상 생성해주세요.")
+        alert("유형을 1개이상 생성해주세요.")
         router.push(`/${id}/section/${type}`)
         return
       }
@@ -57,7 +57,7 @@ const MultipleChipInput = ({postValues, setPostValues, type}) => {
 
   return(
     <div style={CHECKBOXSTYLE}>
-      <SelectMultipleChip title="섹션선택" items={sectionItems} selectedItems={selectedSections} setSelectedItems={setSelectedSections}/>
+      <SelectMultipleChip title="유형선택" items={sectionItems} selectedItems={selectedSections} setSelectedItems={setSelectedSections}/>
 
     </div>
   )

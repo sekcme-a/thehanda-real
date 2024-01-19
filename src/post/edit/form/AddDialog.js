@@ -280,7 +280,7 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
         </div>
       </div>
       <div className={styles.image_container}>
-        <Image src="/david_standing.png" width={200} height={350}/>
+        <Image src="/images/david_standing.png" width={200} height={350}/>
       </div>
     </div>
   )

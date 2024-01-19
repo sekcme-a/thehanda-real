@@ -1,0 +1,32 @@
+
+
+.list_container{
+  height: 400px;
+  margin-bottom: 15px;
+  overflow-y: scroll;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid rgb(222,222,222)
+
+}
+
+.item{
+  padding: 5px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  cursor: pointer;
+}
+.item:hover{
+  color: purple;
+}
+
+.item p{
+  font-size: 14px;
+  margin-right: 20px;
+
+}
+.item p strong{
+  font-size: 16px;
+  margin-left: 3px;
+}

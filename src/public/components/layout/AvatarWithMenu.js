@@ -53,7 +53,7 @@ const AvatarWithMenu = (props) => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar alt="Admin Avatar" src={props.photo ? props.photo : "/default_avatar.png"}/>
+          <Avatar alt="Admin Avatar" src={props.photo ? props.photo : "/images/default_avatar.png"}/>
         </IconButton>
       </Tooltip>
       <Menu
@@ -108,12 +108,12 @@ const AvatarWithMenu = (props) => {
           </ListItemIcon>
           구성원 관리
         </MenuItem>
-        <MenuItem style={{height:"33px"}}>
+        {/* <MenuItem style={{height:"33px"}}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={onLogoutClick} style={{height:"33px"}}>
           <ListItemIcon>
             <Logout fontSize="small" />

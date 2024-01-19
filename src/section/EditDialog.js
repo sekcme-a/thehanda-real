@@ -36,11 +36,11 @@ const EditDialog = ({sections, setSections, setComponents, renderComponent, setI
 
     setIsLoading(true)
     if(!is_exist(prevValue))
-      alert("일치하는 섹션명이 없습니다.")
+      alert("일치하는 유형명이 없습니다.")
     else if(!is_independent(newValue)){
-      alert("새로운 섹션명이 이미 존재하는 이름입니다.")
+      alert("새로운 유형명이 이미 존재하는 이름입니다.")
     }
-    else if(confirm("섹션명을 변경하시겠습니까?")){
+    else if(confirm("유형명을 변경하시겠습니까?")){
       let temp =[]
       let temp2 = []
       for(const item of sections){
@@ -64,8 +64,8 @@ const EditDialog = ({sections, setSections, setComponents, renderComponent, setI
 
   return(
     <div style={{padding: "20px 30px", backgroundColor:"white", borderRadius:"5px "}}>
-      <TextField variant="standard" value={prevValue} onChange={(e)=>setPrevValue(e.target.value)} fullWidth label="변경할 섹션명" placeholder='변경할 섹션명을 입력해주세요.'/>
-      <TextField variant="standard" sx={{mt:"10px"}} value={newValue} onChange={(e)=>setNewValue(e.target.value)} fullWidth label="새로운 섹션명" placeholder='새로운 섹션명을 입력해주세요.' />
+      <TextField variant="standard" value={prevValue} onChange={(e)=>setPrevValue(e.target.value)} fullWidth label="변경할 유형명" placeholder='변경할 유형명을 입력해주세요.'/>
+      <TextField variant="standard" sx={{mt:"10px"}} value={newValue} onChange={(e)=>setNewValue(e.target.value)} fullWidth label="새로운 유형명" placeholder='새로운 유형명을 입력해주세요.' />
       <Button onClick={onEditClick} variant='contained' sx={{mt:"20px"}} size="small" disabled={isLoading}>
         {isLoading ? "저장 중" : "변경" }
       </Button>

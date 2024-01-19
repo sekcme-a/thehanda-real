@@ -6,11 +6,14 @@ import { firestore as db } from "firebase/firebase"
 import { CircularProgress, Grid } from "@mui/material"
 
 import ThumbnailCard from "src/post/id/ThumbnailCard"
+import useData from "context/data"
 
 
 const Post = () => {
   const router = useRouter()
   const {id, type} = router.query
+  const {fetch_program_thumbnailList, programThumbnailList, fetch_survey_thumbnailList, surveyThumbnailList, fetch_announcementList} = useData()
+  
   const [sections, setSections] = useState([])
   const [selectedSection, setSelectedSection] = useState('all')
 
@@ -27,22 +30,22 @@ const Post = () => {
       if(doc.exists){
         setSections(doc.data().data)
       } else{
-        alert("섹션을 1개이상 생성해주세요.")
+        alert("유형을 1개이상 생성해주세요.")
         router.push(`/${id}/section/${type}`)
         return
       }
 
-      let thumbnailQuery = []
 
-      if(type==="announcements")
-        thumbnailQuery = await db.collection("team").doc(id).collection(`${type}`).orderBy("savedAt", "desc").get()
-      else
-        thumbnailQuery = await db.collection("team").doc(id).collection(`${type}_thumbnail`).orderBy("savedAt", "desc").get()
-      if(!thumbnailQuery.empty){
-        const thumbnailDocs = thumbnailQuery.docs.map((doc)=>{
-          return({...doc.data(), id: doc.id})
-        })
-        setThumbnails([...thumbnailDocs])
+      if(type==="announcements"){
+        const result = await fetch_announcementList(id)
+        setThumbnails(result)
+      }
+      else if(type==="programs"){
+        const result = await fetch_program_thumbnailList(id)
+        setThumbnails(result)
+      } else if(type==="surveys"){
+        const result = await fetch_survey_thumbnailList(id)
+        setThumbnails(result)
       }
       setIsLoading(false)
     }

@@ -9,16 +9,19 @@ import { firestore as db } from "firebase/firebase"
 const titleData = {
   "/dashboard": "대쉬보드",
   "/point": "한다 포인트",
+  "/profile": "내 프로필",
   "/team/manageTeam" : "구성원 관리",
+  "/team/teamProfile": "팀 프로필",
   "/user/userList" : "구성원 관리",
   "/user/[uid]" : "유저 정보",
   "/user/category" : "그룹 관리",
   "/post/[type]" : "게시물 관리",
-  "/section/[type]": "섹션 관리",
+  "/section/[type]": "유형 관리",
   "/post/edit/[type]/[postId]": "게시물 편집",
   "/post/edit/announcements/[postId]": "공지사항 편집",
   "/chat": "한다챗",
   "/result/[type]/[docId]" : "결과보기",
+  "/result/comments/[docId]" : "프로그램 후기",
   "/comment/[docId]" : "프로그램 후기 작성"
 }
 

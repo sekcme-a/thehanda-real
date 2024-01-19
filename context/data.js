@@ -59,7 +59,9 @@ export function DataProvider(props){
                 ...userDoc.data().basicProfile,
                 gender: userDoc.data().basicProfile.gender ==="male" ? "남자" : userDoc.data().basicProfile.gender ==="female" ? "여자" : "기타",
                 countryFlag: `${userDoc.data().basicProfile.country.flag} ${userDoc.data().basicProfile.country.text}`,
-                id: userDoc.id
+                id: userDoc.id,
+                realName_additionalRealname: `${userDoc.data().basicProfile?.realName} ${userDoc.data().additionalProfile?.realName ? `(${userDoc.data().additionalProfile?.realName })` : ""}`,
+                phoneNumber_additionalPhoneNumber: `${userDoc.data().basicProfile?.phoneNumber}  ${userDoc.data().additionalProfile?.phoneNumber ? `(${userDoc.data().additionalProfile?.phoneNumber })` : ""}`,
               })
             })
           )
@@ -76,23 +78,57 @@ export function DataProvider(props){
 
 
     //==========썸네일================//
-    const [thumbnails, setThumbnails] = useState({
-      programs: null,
-      surveys: null,
-      announcements: null
-    })
-    
-    const fetch_thumbnails_list = async (type) => {
-      
+    const [programThumbnailList, setProgramThumbnailList] = useState(null)
+    const fetch_program_thumbnailList = async (teamId, isReload) => {
+      if(programThumbnailList===null || isReload){
+        const snapShot = await db.collection("team").doc(teamId).collection(`programs_thumbnail`).orderBy("savedAt", "desc").get()
+        if(!snapShot.empty){
+          const thumbnailDocs = snapShot.docs.map((doc)=>{
+            return({...doc.data(), id: doc.id})
+          })
+          setProgramThumbnailList([...thumbnailDocs])
+          return thumbnailDocs
+        }
+      }
+      return programThumbnailList
     }
-
-
+    const [surveyThumbnailList, setSurveyThumbnailList] = useState(null)
+    const fetch_survey_thumbnailList = async (teamId, isReload) => {
+      if(surveyThumbnailList===null || isReload){
+        const snapShot = await db.collection("team").doc(teamId).collection(`surveys_thumbnail`).orderBy("savedAt", "desc").get()
+        if(!snapShot.empty){
+          const thumbnailDocs = snapShot.docs.map((doc)=>{
+            return({...doc.data(), id: doc.id})
+          })
+          setSurveyThumbnailList([...thumbnailDocs])
+          return thumbnailDocs
+        }
+      }
+      return surveyThumbnailList
+    }
+    const [announcementList, setAnnouncementList] = useState(null)
+    const fetch_announcementList = async (teamId, isReload) => {
+      if(announcementList===null || isReload){
+        const snapShot = await db.collection("team").doc(teamId).collection("announcements").orderBy("savedAt", "desc").get()
+        if(!snapShot.empty){
+          const list = snapShot.docs.map((doc) => {
+            return({...doc.data(), id: doc.id})
+          })
+          setAnnouncementList(list)
+          return list
+        }
+      }
+      return announcementList
+    }
 
     const value = {
       teamList, setTeamList, fetch_team_list,
       team, setTeam, fetch_team,
       userList, setUserList,
-      fetch_userList
+      fetch_userList,
+      programThumbnailList, setProgramThumbnailList, fetch_program_thumbnailList,
+      surveyThumbnailList, setSurveyThumbnailList, fetch_survey_thumbnailList,
+      announcementList, setAnnouncementList, fetch_announcementList
     }
 
     return <dataContext.Provider value={value} {...props} />

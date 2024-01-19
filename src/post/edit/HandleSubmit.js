@@ -23,7 +23,7 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
 
     // for(const key in postValues){
       if(postValues.selectedSections.length === 0 ){
-        alert("섹션을 한개이상 선택해주세요.")
+        alert("유형을 한개이상 선택해주세요.")
         return
       }
     if(postValues.title===""||postValues.title===null){alert("제목을 입력해주세요");return;}
@@ -33,10 +33,28 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
       alert("인원수 제한은 0명 보다 많아야 합니다.")
       return false
     }
+
+    //자녀 프로그램일 시 , postValues.formData 맨앞에 family 타입 추가
+    let newPostValues = postValues
+    if(newPostValues.type==="children"){
+      newPostValues={
+        ...newPostValues,
+        formData: [
+          {
+            id:"family",
+            isRequired: true,
+            title: "가족구성원 선택",
+            subtitle: "신청할 가족구성원을 모두 선택해주세요.",
+            type: "family",
+          },
+          ...newPostValues.formData
+        ]
+      }
+    }
     const batch = db.batch()
 
     batch.set(db.collection("team").doc(id).collection(type).doc(postId),{
-      ...postValues,
+      ...newPostValues,
       history: [{type:"create", date: new Date(), text:`"${userData.name}" 님에 의해 저장됨.`},...postValues.history],
       savedAt: new Date(),
       lastSaved: userData.name,

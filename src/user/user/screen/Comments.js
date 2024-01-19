@@ -30,8 +30,8 @@ const Comments = ({data}) => {
   })
   const [rateData, setRateData] = useState({
     percentage: 0,
-    title:`총 0개의 평가`,
-    subtitle:"평점"
+    title:`총 0개의 참여도`,
+    subtitle:"참여도"
   })
   const [comments, setComments] = useState([
     // {
@@ -69,7 +69,7 @@ const Comments = ({data}) => {
       //   })
       // }
 
-      const querySnapshot = await db.collection("user").doc(data.uid).collection("history").where("type","==","participate").get()
+      const querySnapshot = await db.collection("user").doc(data.uid).collection("history").where("type","==","participate").where("teamId","==",team.teamId).get()
       if(!querySnapshot.empty){
         let hasParticipate = 0
         let hasNotParticipate = 0
@@ -108,7 +108,7 @@ const Comments = ({data}) => {
 
           setRateData({
             ...rateData,
-              title:`총 ${tempComments.length}개의 평가`,
+              title:`총 ${tempComments.length}개의 참여도`,
               percentage: rate
           })
       })
@@ -121,7 +121,7 @@ const Comments = ({data}) => {
         alert("메모는 빈칸일 수 없습니다.")
     }
     else if (inputRate==="" || inputRate===0){
-      alert("평점을 선택해주세요.")
+      alert("참여도을 선택해주세요.")
     }
     else{
       await db.collection("team_admin").doc(team.teamId).collection("users").doc(data.uid).collection("comments").add({
@@ -141,7 +141,7 @@ const Comments = ({data}) => {
   }
 
   const onDeleteClick = async (docId) => {
-    if(confirm("해당 평가를 삭제하시겠습니까?")){
+    if(confirm("해당 참여도를 삭제하시겠습니까?")){
       await db.collection("team_admin").doc(team.teamId).collection("users").doc(data.uid).collection("comments").doc(docId).delete()
       alert("삭제되었습니다")
       setTriggerReload(!triggerReload)
@@ -157,7 +157,7 @@ const Comments = ({data}) => {
         </div>
         <Card>
         <CardContent className={styles.comments_container}>
-            <h1 className={styles.title}>유저 평가</h1>
+            <h1 className={styles.title}>유저 참여도</h1>
             <div className={styles.commentList_container}>
               {comments.map((comment, index)=>{
                   return(
@@ -201,7 +201,7 @@ const Comments = ({data}) => {
                 </div>
                 <TextField
                 id="standard-multiline-static"
-                label="유저 평가"
+                label="유저 참여도"
                 multiline
                 fullWidth
                 rows={4}

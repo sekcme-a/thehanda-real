@@ -27,8 +27,8 @@ const AddDialog = ({sections, setSections, setComponents, renderComponent, setIs
     } 
 
     setIsLoading(true)
-    if(value==="" || value===" ") alert("섹션명은 공백이 될 수 없습니다.")
-    else if(!is_independent(value)) alert("이미 있는 섹션명입니다.")
+    if(value==="" || value===" ") alert("유형명은 공백이 될 수 없습니다.")
+    else if(!is_independent(value)) alert("이미 있는 유형명입니다.")
     else {
 
       //get random Id
@@ -55,7 +55,7 @@ const AddDialog = ({sections, setSections, setComponents, renderComponent, setIs
 
   return(
     <div style={{padding: "20px 30px", backgroundColor:"white", borderRadius:"5px "}}>
-      <h1 style={{marginBottom:"15px"}}>추가할 섹션명을 입력해주세요</h1>
+      <h1 style={{marginBottom:"15px"}}>추가할 유형명을 입력해주세요</h1>
       <TextField variant="standard" value={value} onChange={(e)=>setValue(e.target.value)}/>
       <Button onClick={onAddClick} disabled={isLoading}>
         {isLoading ? "저장 중" : "추가" }

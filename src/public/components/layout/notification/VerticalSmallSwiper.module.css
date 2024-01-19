@@ -1,0 +1,20 @@
+
+
+.swiper_container{
+  background-color: white;
+  /* width: 100%; */
+  border-radius: 5px;
+  padding: 12px 15px;
+  box-shadow: 1px 1px 1px 1px rgb(235, 235, 235);
+}
+
+.item{
+  transition: .5s;
+  cursor: pointer;
+}
+.item.isShow{
+  opacity: 1;
+}
+.item.isHide{
+  opacity: 0;
+}

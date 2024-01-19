@@ -27,7 +27,7 @@ type: type===program 이면 체크 표시등이 있음
 checkedList, setCheckedList: useState 써서 바로 적용
 */
 
-const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedList, setCheckedList}) => {
+const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedList, setCheckedList, noFilter}) => {
     const router = useRouter()
     const {id} = router.query
     // const {teamId} = useData()
@@ -50,9 +50,9 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
         if (filter === "unconfirmedOnly")
             tempList = tempList.filter(item => item.confirmed !== "승인")
         else if (filter ==="participatedOnly")
-            tempList = tempList.filter(item => item.participated === "참여함")
+            tempList = tempList.filter(item => item.participated === "참여")
         else if (filter ==="unparticipatedOnly")
-            tempList = tempList.filter(item => item.participated !== "참여함")
+            tempList = tempList.filter(item => item.participated !== "참여")
 
         setSortedList(tempList)
 
@@ -99,21 +99,23 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
     return(
         <>
         <div style={{display:"flex", alignItems:"center", flexWrap:"wrap"}}>
-            <FormControl  size='small' style={{minWidth:"150px", backgroundColor:"white"}}>
-                <InputLabel id="simple-select-label" size='small'>필터</InputLabel>
-                <Select
-                value={filter}
-                label="제목"
-                size='small'
-                onChange={(e) => setFilter(e.target.value)}
-                >
-                    <MenuItem value="all" size='small'>전체</MenuItem>
-                    <MenuItem value="confirmedOnly" size='small'>참여 승인만</MenuItem>
-                    <MenuItem value="unconfirmedOnly" size='small'>참여 미승인만</MenuItem>
-                    <MenuItem value="participatedOnly" size='small'>참여한 사용자만</MenuItem>
-                    <MenuItem value="unparticipatedOnly" size='small'>미참여 사용자만</MenuItem>
-                </Select>
-            </FormControl>
+            {!noFilter &&
+                <FormControl  size='small' style={{minWidth:"150px", backgroundColor:"white"}}>
+                    <InputLabel id="simple-select-label" size='small'>필터</InputLabel>
+                    <Select
+                    value={filter}
+                    label="제목"
+                    size='small'
+                    onChange={(e) => setFilter(e.target.value)}
+                    >
+                        <MenuItem value="all" size='small'>전체</MenuItem>
+                        <MenuItem value="confirmedOnly" size='small'>신청 승인만</MenuItem>
+                        <MenuItem value="unconfirmedOnly" size='small'>참여 미승인만</MenuItem>
+                        <MenuItem value="participatedOnly" size='small'>참여한 사용자만</MenuItem>
+                        <MenuItem value="unparticipatedOnly" size='small'>불참 사용자만</MenuItem>
+                    </Select>
+                </FormControl>
+            }
             <Button  variant="contained" size="small" style={{backgroundColor:"rgb(0, 98, 196)" }}  sx={{ml:"10px"}}> 
             <ImportExportIcon style={{fontSize:"20px", marginRight:"4px"}}/>
             <CSVLink 
@@ -134,7 +136,7 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
                 <thead>
                     <tr>
                         {type==="programs" &&
-                            <th>
+                            <th >
                                 <Checkbox
                                     checked={isAllCheck}
                                     onChange={handleIsAllCheckChange}
@@ -151,7 +153,7 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
 
                         {headers?.map((item, index)=>{
                             return(
-                                <th key={index} className={styles.header_item}>
+                                <th key={index} className={styles.header_item} style={type!=="programs" ?{padding: "10px"} : {}}>
                                     {item.label}
                                 </th>
                             )
@@ -176,7 +178,10 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
                                 {headers.map((head, index2)=>{
                                     if(typeof item[head.key] === "string")
                                     return(
-                                        <td key={index2} onClick={()=>onUidClick(item.id)}>
+                                        <td key={index2} onClick={()=>onUidClick(item.id)}
+                                         style={item[head.key]==="불참" ||item[head.key]==="미승인" ? {color:'red'} :
+                                         item[head.key]==="참여" ||item[head.key]==="승인" ? {color:'blue'} :{}}
+                                        >
                                             {item[head.key]?.length>30 ? `${item[head.key].substr(0,30)}...` : item[head.key]}
                                         </td>
                                     )

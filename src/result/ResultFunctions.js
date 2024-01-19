@@ -2,7 +2,7 @@ import { firestore as db } from "firebase/firebase"
 import { DatabaseCogOutline } from "mdi-material-ui";
 import { sendMultipleNotification, sendNotification } from "src/public/hooks/notification";
 
-export const fetch_header_data_and_title = async (teamId, type, docId) => {
+export const fetch_header_data_and_title = async (teamId, type, docId, forComments) => {
   return new Promise(async (resolve, reject) => {
     try {
       const doc = await db.collection("team").doc(teamId).collection(type).doc(docId).get();
@@ -12,7 +12,10 @@ export const fetch_header_data_and_title = async (teamId, type, docId) => {
         const formData = doc.data().formData.map((item) => (
           {key: item.id, label: item.title}
         ))
-        resolve({title: doc.data().title, headerData: [{key:"realName", label:"실명(프로필 상)"}, {key:"phoneNumber", label:"전화번호(프로필 상)"},{key:"confirmed", label:"참여 승인"},  ...formData]})
+        if(!forComments)
+          resolve({title: doc.data().title, headerData: [{key:"realName", label:"실명(프로필 상)"}, {key:"phoneNumber", label:"전화번호(프로필 상)"},{key:"confirmed", label:"신청 승인"}, {key:"participated", label:"참여 여부"}, ...formData]})
+        else
+        resolve({title: doc.data().title, headerData: [{key:"realName", label:"실명(프로필 상)"}, {key:"phoneNumber", label:"전화번호(프로필 상)"}, ...formData]})
       } else {
         reject("존재하지 않는 게시물입니다.");
       }
@@ -38,6 +41,7 @@ export const fetch_result_data = async (teamId, type, docId) => {{
             id: doc.id,
             ...doc.data(),
             confirmed: doc.data().confirmed ? "승인" : "미승인",
+            participated: doc.data().participated ? "참여" : doc.data().confirmed && doc.data().paticipated===false ? "불참" : "-",
             realName: basicProfile?.realName || "삭제된 유저",
             phoneNumber: basicProfile?.phoneNumber || "삭제된 유저",
             deleted: basicProfile ? false : true
@@ -51,28 +55,45 @@ export const fetch_result_data = async (teamId, type, docId) => {{
     }
   })
 }}
-
-export const refine_result_data = (data) => {
-  try{
-    const refinedData = data.map((obj, index) => {
-      for(let[key, value] of Object.entries(obj)){
-        
-        //다중선택 핸들
-        if(Array.isArray(value)){
-          obj[key] = value.join(",")
+export const refine_result_data = async (data) => {
+  try {
+    const refinedData = await Promise.all(data.map(async (obj) => {
+      for (let [key, value] of Object.entries(obj)) {
+        // 자녀 프로그램의 가족구성원 입력 핸들
+        if (key === 'family') {
+          let familyData = "";
+          await Promise.all(value.map(async (familyId) => {
+            const familyDoc = await db.collection("user").doc(obj.id).collection("family").doc(familyId).get();
+            if (familyDoc.exists) {
+              const {realName, relation, gender, phoneNumber, birth, country} = familyDoc.data()
+              familyData += `${realName}_${relation}_${gender==="male" ? "남자" : gender==="female" ? "여자" : "기타"}_${phoneNumber}_${birth.toDate().toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+              })}_${country.text}\n`;
+            }
+          }));
+          console.log(familyData)
+          obj[key] = familyData;
         }
-        else if(value.main && value.sub){ //주소 핸들
-          obj[key] = `${value.main} ${value.sub}`
+        // 다중선택 핸들
+        else if (Array.isArray(value)) {
+          obj[key] = value.join(",");
+        } else if (value.main) { // 주소 핸들
+          obj[key] = `${value.main} ${value.sub}`;
+        } else if (typeof value.sub === "string") { // 주소 핸들
+          obj[key] = `${value.sub}`;
         }
       }
-      return obj
-    })
-    return refinedData
-  }catch(e){
-    console.log(e.message)
-    return false
+      return obj;
+    }));
+    return refinedData;
+  } catch (e) {
+    console.log(e.message);
+    return false;
   }
-}
+};
+
 
 export const confirm_users = async (title, teamId, type, docId, uidList, isSendAlarm) => {
   return new Promise(async (resolve, reject) => {
@@ -129,7 +150,7 @@ export const participate_users = async (teamId, type, docId, checkedList, isPart
           batch.update(resultDocRef, { participated: isParticipated });
 
           //history 에 이미 해당 프로그램의 참여유무가 있다면, 해당 참여유무 삭제 후 생성
-          const historyQuery = await db.collection("user").doc(uid).collection("history").where("docId","==", docId).where("type","==", "participate").get()
+          const historyQuery = await db.collection("user").doc(uid).collection("history").where("docId","==", docId).where("type","==", "participate").where("teamId","==",teamId).get()
           if(!historyQuery.empty){
             await Promise.all(historyQuery.docs.map((doc) => {
               batch.delete(db.collection("user").doc(uid).collection("history").doc(doc.id))
@@ -137,9 +158,9 @@ export const participate_users = async (teamId, type, docId, checkedList, isPart
           }
           batch.set(db.collection("user").doc(uid).collection("history").doc(),{
             createdAt: new Date(),
-            type: "participate",
+            type: isParticipated ? "participate" : "disparticipate",
             docId: docId,
-            condition: isParticipated,
+            teamId: teamId
           })
         })
       )

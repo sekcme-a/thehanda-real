@@ -81,7 +81,10 @@ const MenuContent = ({postId, type}) => {
             <MenuItem onClick={onResultClick} style={{padding: "3px 20px"}}><ListAltIcon className={styles.menu_icon}/>결과보기</MenuItem>
           }
           {type!=="announcements" &&  type!=="surveys" && 
-            <MenuItem onClick={() =>router.push(`/${id}/comment/${postId}`)} style={{padding: "3px 20px"}}><DriveFileRenameOutlineIcon className={styles.menu_icon}/>프로그램 후기 작성</MenuItem>
+            <>
+              <MenuItem onClick={() =>router.push(`/${id}/comment/${postId}`)} style={{padding: "3px 20px"}}><DriveFileRenameOutlineIcon className={styles.menu_icon}/>프로그램 후기 작성</MenuItem>
+              <MenuItem onClick={() =>router.push(`/${id}/result/comments/${postId}`)} style={{padding: "3px 20px"}}><ListAltIcon className={styles.menu_icon}/>후기 결과보기</MenuItem>
+            </>
           }
           <MenuItem onClick={onDeleteClick} style={{padding: "3px 20px", color:"rgb(172, 1, 1)"}}><DeleteOutlineIcon className={styles.menu_icon}/>삭제</MenuItem>
         </Menu>

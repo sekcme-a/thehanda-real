@@ -52,7 +52,7 @@ const EditPost = ({postValues, setPostValues}) => {
 
 
       <div className={styles.item_container}>
-        <h1>섹션</h1>
+        <h1>유형</h1>
         <MultipleChipInput {...{postValues, setPostValues, type}}/>
       </div>
 

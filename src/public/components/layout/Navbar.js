@@ -226,7 +226,7 @@ const Navbar = () => {
         <ListItemIcon>
           <AutoAwesomeMotionOutlinedIcon />
         </ListItemIcon>
-        <ListItemText primary="섹션 관리" />
+        <ListItemText primary="유형 관리" />
         {openedItem===3 ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={openedItem===3} timeout="auto" unmountOnExit>
@@ -235,7 +235,7 @@ const Navbar = () => {
               <ListItemIcon>
                 <EditIcon />
               </ListItemIcon>
-              <ListItemText primary="프로그램 섹션" />
+              <ListItemText primary="프로그램 유형" />
             </ListItemButton>
           </List>
 
@@ -245,7 +245,7 @@ const Navbar = () => {
               <ListItemIcon>
                 <EditIcon />
               </ListItemIcon>
-              <ListItemText primary="설문조사 섹션" />
+              <ListItemText primary="설문조사 유형" />
             </ListItemButton>
           </List>
 
@@ -254,7 +254,7 @@ const Navbar = () => {
               <ListItemIcon>
                 <EditIcon />
               </ListItemIcon>
-              <ListItemText primary="공지사항 섹션" />
+              <ListItemText primary="공지사항 유형" />
             </ListItemButton>
           </List>
 

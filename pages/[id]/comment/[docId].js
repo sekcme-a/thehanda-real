@@ -63,8 +63,8 @@ const Comment = () => {
             endAt: commentDoc.data().endAt?.toDate()
           })
           setAppliedAt(commentDoc.data().appliedAt)
-          setIsLoading(false)
         }
+        setIsLoading(false)
       }else {
         alert("프로그램이 존재하지 않습니다.")
         router.back()
@@ -138,7 +138,7 @@ const Comment = () => {
       setIsSending(false)
     }
     
-
+    setIsSending(false)
   }
 
 
@@ -156,7 +156,7 @@ const Comment = () => {
       <div style={{marginTop:"20px", padding: "20px 20px", backgroundColor:"white",
         borderRadius:"10px", boxShadow:"rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px"}}
       >
-        {step===0 && <CustomForm formData={postValues.formData} setFormData={handleFormData} teamId={id} type="program" />}
+        {step===0 && <CustomForm contentMode formData={postValues.formData} setFormData={handleFormData} teamId={id} type="program" />}
         {step===1 && 
           <div style={{margin:"25px 0 7px 0", width:"100%"}}>
             <SwitchDateTimePicker {...{postValues, setPostValues}} type="hasEndDate" value="endAt" text="후기 설문기간" />
@@ -226,7 +226,7 @@ const Comment = () => {
             }
             {step === 1 &&
               <>
-                <Button onClick={()=> setStep(1)} variant="contained">{`< 이전`}</Button>
+                <Button onClick={()=> setStep(0)} variant="contained">{`< 이전`}</Button>
               </>
             }
           </div>

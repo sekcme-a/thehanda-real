@@ -50,7 +50,7 @@ const Announcements = () => {
     <div className={styles.main_container}>
       <div className={styles.content_container}>
         <div className={styles.item_container}>
-          <h1>섹션</h1>
+          <h1>유형</h1>
           <MultipleChipInput {...{postValues, setPostValues}} type="announcements"/>
         </div>
         <div className={styles.border} />

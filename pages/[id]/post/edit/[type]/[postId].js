@@ -103,7 +103,7 @@ const Program = () => {
     
       <div className={styles.content_container}>
         {step === 0 && <EditPost {...{postValues, setPostValues}} />}
-        {step === 1 && <CustomForm formData={postValues.formData} setFormData={handleFormData} teamId={id} type="program" />}
+        {step === 1 && <CustomForm contentMode formData={postValues.formData} setFormData={handleFormData} teamId={id} type="program" />}
         {step === 2 && <PublishSetting  {...{postValues, setPostValues, calendar, setCalendar}}  />}
         {step === 2 && <HandleSubmit {...{postValues, setPostValues, calendar, setCalendar, formValues, setFormValues}} />}
 

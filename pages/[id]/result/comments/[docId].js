@@ -1,3 +1,4 @@
+
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useEffect } from "react"
@@ -41,8 +42,8 @@ const Result = () => {
 
     const fetchData = async () => {
       try{
-        const fetchedHeader = await fetch_header_data_and_title(id, type, docId)
-        const fetchedResult = await fetch_result_data(id,type,docId)
+        const fetchedHeader = await fetch_header_data_and_title(id, 'comments', docId, "comments")
+        const fetchedResult = await fetch_result_data(id,'comments',docId)
         const refinedResult = await refine_result_data(fetchedResult)
         console.log(refinedResult)
         setTitle(fetchedHeader.title)
@@ -109,62 +110,8 @@ const Result = () => {
   if(isLoading) (<CircularProgress />)
   return(
     <>
-      <h1 style={{fontSize:"20px", fontWeight:"bold", marginBottom:"10px"}}>폼 결과 확인</h1>
-      <p style={{fontSize:"15px", marginBottom:"40px"}}>{`"${title}"프로그램의 신청결과입니다.`}</p>
-
-        <Button
-          variant="contained"
-          size="small"
-          onClick={onConfirmClick}
-          // style={{backgroundColor:"rgb(25, 51, 167)"}}
-        >
-          <PlaylistAddCheckIcon />
-          신청 승인 처리
-        </Button>
-
-        <Button
-          variant="contained"
-          size="small"
-          sx={{ml:"10px"}}
-          onClick={()=> onParticipatedClick(true)}
-          // style={{backgroundColor:"rgb(25, 51, 167)"}}
-        >
-          <HowToRegOutlinedIcon />
-          참여 처리
-        </Button>
-        <Button
-          variant="contained"
-          size="small"
-          sx={{ml:"10px"}}
-          color="error"
-          onClick={()=> onParticipatedClick(false)}
-          // style={{backgroundColor:"rgb(25, 51, 167)"}}
-        >
-          <PersonOffOutlinedIcon />
-          불참 처리
-        </Button>
-        <Button
-          variant="contained"
-          size="small"
-          sx={{ml:"10px"}}
-          color="secondary"
-          onClick={() =>setIsAlertDialogOpen(true)}
-          // style={{backgroundColor:"rgb(25, 51, 167)"}}
-        >
-          <EditNotificationsOutlinedIcon />
-          알림 보내기
-        </Button>
-        {/* <Button
-          variant="contained"
-          size="small"
-          sx={{ml:"10px"}}
-          color="secondary"
-          onClick={onConfirmClick}
-          // style={{backgroundColor:"rgb(25, 51, 167)"}}
-        >
-          <SendOutlinedIcon />
-          일괄 한다톡 보내기
-        </Button> */}
+      <h1 style={{fontSize:"20px", fontWeight:"bold", marginBottom:"10px"}}>프로그램 후기 결과 확인</h1>
+      <p style={{fontSize:"15px", marginBottom:"40px"}}>{`프로그램 후기 결과입니다.`}</p>
 
 
 
@@ -174,7 +121,7 @@ const Result = () => {
 
       
 
-      <CSVTable title={title} headers={header} data={result} type={type} docId={docId} {...{checkedList, setCheckedList}}/>
+      <CSVTable title={title} headers={header} data={result} type={type} docId={docId} {...{checkedList, setCheckedList}} noFilter/>
 
       <AlarmDialog isDialogOpen={isAlertDialogOpen} setIsDialogOpen={setIsAlertDialogOpen} checkedList={checkedList} />
     </>

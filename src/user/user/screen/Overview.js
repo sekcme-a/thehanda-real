@@ -1,24 +1,38 @@
-import { Grid, TextField } from "@mui/material"
+import { Button, Grid, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
+import MuiButton from "src/public/mui/MuiButton"
 
+import { firestore as db } from "firebase/firebase"
 
 const UserViewOverview = ({data, setData}) => {
 
   const [value, setValue] = useState(data)
+  const [additionalValue, setAdditionalValue] = useState({
+    realName: "",
+    phoneNumber:"",
+  })
+
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     setValue(data)
+    if(data.additionalProfile) setAdditionalValue(data.additionalProfile)
   },[data])
 
-  const handleChange = (key, val) => {
-    setValue(prevValue => ({
-      ...prevValue,
-      basicProfile: {
-        ...prevValue.basicProfile,
-        [key]: val,
-      } 
+  const handleAdditionalProfile = (key, val) => {
+    setAdditionalValue(prev => ({
+      ...prev,
+      [key]: val
     }))
-    console.log(value.basicProfile)
+  }
+
+  const onSaveClick = async () => {
+    setIsSaving(true)
+    await db.collection("user").doc(data.uid).update({
+      additionalProfile: additionalValue
+    })
+    setIsSaving(false)
+    alert("성공적으로 저장했습니다.")
   }
 
   return (
@@ -39,10 +53,11 @@ const UserViewOverview = ({data, setData}) => {
           <TextField
             fullWidth
             variant="outlined"
-            value={value?.basicProfile?.displayName}
-            label="닉네임"
+            value={additionalValue.realName}
+            helperText="해당 내용은 수정하실 수 있습니다."
+            label="실명(관리자 메모)"
             size="small"
-            // onChange={(e) => handleChange("displayName", e.target.value)}
+            onChange={(e) => handleAdditionalProfile("realName", e.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} >
@@ -53,6 +68,27 @@ const UserViewOverview = ({data, setData}) => {
             label="전화번호"
             size="small"
             // onChange={(e) => handleChange("phoneNumber", e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} >
+          <TextField
+            fullWidth
+            variant="outlined"
+            value={additionalValue.phoneNumber}
+            label="전화번호(관리자 메모)"
+            helperText="해당 내용은 수정하실 수 있습니다."
+            size="small"
+            onChange={(e) => handleAdditionalProfile("phoneNumber", e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12} md={6} >
+          <TextField
+            fullWidth
+            variant="outlined"
+            value={value?.basicProfile?.displayName}
+            label="닉네임"
+            size="small"
+            // onChange={(e) => handleChange("displayName", e.target.value)}
           />
         </Grid>
         <Grid item xs={12} md={6} >
@@ -128,6 +164,9 @@ const UserViewOverview = ({data, setData}) => {
             size="small"
             // onChange={(e) => handleChange("phoneNumber", e.target.value)}
           />
+        </Grid>
+        <Grid item xs={12} md={12} sx={{mt:"20px"}}>
+          <MuiButton small label="저장" onClick={onSaveClick} fullWidth isLoading={isSaving}/>
         </Grid>
       </Grid>
 

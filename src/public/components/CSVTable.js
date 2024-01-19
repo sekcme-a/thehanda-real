@@ -174,7 +174,7 @@ const CSVTable = ({title, headers, data, onItemClick, hasCheck,  checkedList, se
                               {headers.map((head, index2)=>{
                                   if(typeof item[head.key] === "string")
                                   return(
-                                      <td key={index2} onClick={()=>onItemClick(item.id)}>
+                                      <td key={index2} onClick={()=>onItemClick(item)}>
                                           {item[head.key]?.length>30 ? `${item[head.key].substr(0,30)}...` : item[head.key]}
                                       </td>
                                   )

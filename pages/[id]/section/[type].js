@@ -95,17 +95,17 @@ const Section = () => {
 
   return(
     <>
-      <PageHeader title={`${text} 섹션 관리`} subtitle={`${text} 섹션을 추가/삭제하거나 순서를 변경하실 수 있습니다.\n적용 버튼을 눌러야 적용됩니다.`}/>
+      <PageHeader title={`${text} 유형 관리`} subtitle={`${text} 유형을 추가/삭제하거나 순서를 변경하실 수 있습니다.\n적용 버튼을 눌러야 적용됩니다.`}/>
     
       <Grid container spacing={3} className='match-height'>
-        <CardContent mode="title" title="현재 섹션 갯수" content={`${sections.length}개`}/>
-        <CardContent mode="button" buttonText="섹션 추가" content="섹션을 추가합니다." handleClick={()=>onButtonClick("add")}/>
-        <CardContent mode="button" buttonColor="error" buttonText="섹션 삭제" content="섹션을 삭제합니다." handleClick={()=>onButtonClick("delete")}/>
-        <CardContent mode="button" buttonColor="secondary" buttonText="섹션명 편집" content="섹션명을 편집합니다." handleClick={()=>onButtonClick("edit")}/>
+        <CardContent mode="title" title="현재 유형 갯수" content={`${sections.length}개`}/>
+        <CardContent mode="button" buttonText="유형 추가" content="유형을 추가합니다." handleClick={()=>onButtonClick("add")}/>
+        <CardContent mode="button" buttonColor="error" buttonText="유형 삭제" content="유형을 삭제합니다." handleClick={()=>onButtonClick("delete")}/>
+        <CardContent mode="button" buttonColor="secondary" buttonText="유형명 편집" content="유형명을 편집합니다." handleClick={()=>onButtonClick("edit")}/>
       </Grid>
 
 
-      <PageHeader title={`${text} 섹션`}/>
+      <PageHeader title={`${text} 유형`}/>
 
 
       <SortableComponent items={sections} setItems={setSections}

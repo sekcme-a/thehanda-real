@@ -47,10 +47,10 @@ const Header = ({sections, selectedSection, setSelectedSection}) => {
       
       <div className={styles.button_container}>
         <FormControl sx={{width:"200px", marginRight:"25px"}} size="small">
-          <InputLabel id="simple-select-label">섹션 선택</InputLabel>
+          <InputLabel id="simple-select-label">유형 선택</InputLabel>
           <Select
             value={selectedSection}
-            label="섹션 선택"
+            label="유형 선택"
             onChange={(e)=>setSelectedSection(e.target.value)}
           >
             <MenuItem value='all' key="all">전체</MenuItem>
@@ -68,7 +68,7 @@ const Header = ({sections, selectedSection, setSelectedSection}) => {
           + 새 {text}
         </div>
         {/* <div className={styles.button} onClick={()=>router.push(`/${id}/section/${type}`)}>
-          섹션 변경
+          유형 변경
         </div>
         <div className={styles.button} onClick={onChangeNameClick}>
           이름 변경

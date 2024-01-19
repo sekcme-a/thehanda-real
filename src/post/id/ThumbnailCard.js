@@ -27,7 +27,7 @@ const ThumbnailCard = ({data, type}) => {
     // <div className={styles.main_container}>
     //   <img src={data.thumbnailURL} alt={data.title} />
     // </div>
-    <Card sx={{p:"10px 5px",  position: "relative", height:"215px", cursor:"pointer"}}>
+    <Card sx={{p:"10px 5px",  position: "relative", height: type==="announcements" ? "85px" :"215px", cursor:"pointer"}}>
 
       <MenuContent postId={data.id} type={type}/>
 

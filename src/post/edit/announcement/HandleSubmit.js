@@ -10,7 +10,7 @@ const HandleSubmit = ({postValues, setPostValues}) => {
 
   const onSaveClick = async () => {   
     if(postValues.selectedSections.length === 0 ){
-      alert("섹션을 한개이상 선택해주세요.")
+      alert("유형을 한개이상 선택해주세요.")
       return false
     }
     if(postValues.title === ""){

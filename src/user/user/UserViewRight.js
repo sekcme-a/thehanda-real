@@ -39,6 +39,7 @@ import Chat from './screen/Chat'
 import Family from './screen/Family'
 import Comments from './screen/Comments'
 import Memo from './screen/Memo'
+import Timeline from './screen/Timeline'
 // import Comments from './Comments'
 // import Family from "./Family"
 // import Memo from "./Memo"
@@ -74,7 +75,7 @@ const UserViewRight = ({data, setData}) => {
         {/* <Tab value='group' label='Group' icon={<CategoryOutlinedIcon />} /> */}
         <Tab value='chat' label="Chat" icon={<ChatOutlinedIcon />} />
         <Tab value='family' label='Family' icon={<FamilyRestroomIcon />} />
-        {/* <Tab value='timeline' label='Timeline' icon={<TimelineIcon />} /> */}
+        <Tab value='timeline' label='Timeline' icon={<TimelineIcon />} />
         <Tab value='comments' label="Comments" icon={<SummarizeOutlinedIcon />} />
         <Tab value='memo' label="Memo" icon={<DriveFileRenameOutlineIcon />} />
         
@@ -99,6 +100,9 @@ const UserViewRight = ({data, setData}) => {
           </Card>
           <Card style={value!=="memo" ? {display:"none"}: {padding: '30px 20px'}}>
             <Memo data={data} />
+          </Card>
+          <Card style={value!=="timeline" ? {display:"none"}: {padding: '30px 20px'}}>
+            <Timeline data={data} />
           </Card>
         {/* </TabPanel> */}
         {/* <TabPanel sx={{ p: 0 }} value='group' >
