@@ -63,7 +63,7 @@ const Result = () => {
     }
     try{
       if(confirm("신청 승인하시겠습니까?")){
-        const isSendAlarm = confirm("유저들에게 참여 확정 알림을 보내시겠습니까?\n취소 시, 알림 없이 참여 확정됩니다.\n(이미 참여 확정된 유저들에게는 전송되지 않습니다.)")
+        const isSendAlarm = confirm("유저들에게 참여 확정 알림을 보내시겠습니까?\n취소 클릭 시, 알림 없이 참여 확정됩니다.\n(이미 참여 확정된 유저들에게는 전송되지 않습니다.)")
         await confirm_users(title, id, type, docId, checkedList, isSendAlarm )
         alert("성공적으로 승인되었습니다.")
         router.reload()

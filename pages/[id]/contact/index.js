@@ -188,7 +188,7 @@ const Contact = () => {
         setOpenContent(false)
         // db.collection("user").doc(uid).get().then(async(doc) => {
           try {
-            const result = await sendNotification(uid,"문의답장 알림","문의하신 내용에 답장이 도착했습니다.", 'alarm_message', {screen:"Alarm"});
+            const result = await sendNotification(uid,"문의답장 알림","문의하신 내용에 답장이 도착했습니다.", 'alarm_message');
             if(result.title==="전송 성공"){
               setRepliedText("")
               alert("성공적으로 보냈습니다.")

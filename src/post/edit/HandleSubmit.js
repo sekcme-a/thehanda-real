@@ -37,9 +37,9 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
       return false
     }
 
-    //자녀 프로그램일 시 , postValues.formData 맨앞에 family 타입 추가
+    //자녀 프로그램이고 family타입이 없다면 , postValues.formData 맨앞에 family 타입 추가
     let newPostValues = postValues
-    if(newPostValues.type==="children"){
+    if(newPostValues.type==="children" && !newPostValues?.formData.find(obj => obj.type === 'family')){
       newPostValues={
         ...newPostValues,
         formData: [

@@ -17,7 +17,7 @@ const NoAuthority = () => {
   const [sended, setSended] = useState(false)
 
   useEffect(()=>{
-    if(userData.roles && (userData.roles.includes("super_admin") || userData.roles.includes(`${id}_admin`)))
+    if(userData.roles && (userData.roles.includes("super_admin") || userData.roles.includes(`${id}_admin`) || userData.roles.includes(`${id}_high_admin`)||userData.roles.includes(`${id}_super_admin`)))
       router.push(`/${id}/dashboard`)
   },[])
 

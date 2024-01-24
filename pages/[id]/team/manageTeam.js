@@ -92,7 +92,7 @@ const ManageTeam = () => {
             variant="contained"
             onClick={()=>onCancelAuthorityClick(row.id)}
             size="small"
-            disabled={!(userData.roles.includes("super_admin")||userData.roles.includes(`${id}_super_admin`))}
+            disabled={!(userData?.roles?.includes("super_admin")||userData?.roles?.includes(`${id}_super_admin`))}
           >
             권한해제
           </Button>

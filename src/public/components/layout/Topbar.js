@@ -8,7 +8,7 @@ import { firestore as db } from "firebase/firebase"
 
 const titleData = {
   "/[id]/dashboard": "대쉬보드",
-  "/[id]/[id]/point": "한다 포인트",
+  "/[id]/point": "한다 포인트",
   "/[id]/profile": "내 프로필",
   "/[id]/team/manageTeam" : "구성원 관리",
   "/[id]/team/teamProfile": "팀 프로필",
@@ -25,6 +25,7 @@ const titleData = {
   "/[id]/comment/[docId]" : "프로그램 후기 작성",
   "/[id]/schedule/programSchedule" : "프로그램 스케쥴",
   "/[id]/schedule/teamSchedule" : "팀 스케쥴",
+  "/[id]/contact" : "센터문의 관리"
 }
 
 const Topbar = () => {
