@@ -4,9 +4,10 @@ import { firestore as db } from "firebase/firebase"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useState } from "react"
+import { uploadFilesToStorage } from "src/public/hooks/handleFiles"
 
 
-const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formValues, setFormValues}) => {
+const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, setCalendar, formValues, setFormValues}) => {
 
   const {userData} = useUserData()
 
@@ -14,13 +15,15 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
   const {id,type,  postId} = router.query
 
   const [rejectText, setRejectText]= useState("")
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
   
   useEffect(()=> {
     console.log(postValues)
   },[postValues])
 
   const onSubmit = async () => {
-
+    
     // for(const key in postValues){
       if(postValues.selectedSections.length === 0 ){
         alert("유형을 한개이상 선택해주세요.")
@@ -51,6 +54,10 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
         ]
       }
     }
+
+    setIsSubmitting(true)
+    const imagesUrlList = await uploadFilesToStorage(selectedImageList, `contents/${id}/${postId}/images`)
+    
     const batch = db.batch()
 
     batch.set(db.collection("team").doc(id).collection(type).doc(postId),{
@@ -58,7 +65,8 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
       history: [{type:"create", date: new Date(), text:`"${userData.name}" 님에 의해 저장됨.`},...postValues.history],
       savedAt: new Date(),
       lastSaved: userData.name,
-      calendar: calendar.data
+      calendar: calendar.data,
+      imageList: imagesUrlList,
     })
 
     batch.set(db.collection("team").doc(id).collection(`${type}_thumbnail`).doc(postId), {
@@ -78,6 +86,7 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
     })
 
     await batch.commit()
+    setIsSubmitting(false)
     alert("성공적으로 저장되었습니다!")
     return true
 
@@ -129,6 +138,7 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
   }
 
   const onConfirmClick = async () => {
+    setIsSubmitting(true)
     const batch = db.batch()
 
     batch.update(db.collection("team").doc(id).collection(type).doc(postId), {
@@ -154,12 +164,14 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
     })
 
     await batch.commit()
+    setIsSubmitting(false)
     alert("승인 완료 후 게재되었습니다.")
     router.reload()
   }
 
   const onCancelClick = async () => {
     if(confirm("게재취소하시겠습니까?\n일방적인 게재 취소는 사용자들에게 혼란을 줄 수 있습니다.")){
+      setIsSubmitting(true)
       const batch = db.batch()
       batch.update(db.collection("team").doc(id).collection(type).doc(postId),{
         condition: "unconfirm",
@@ -174,6 +186,7 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
       })
 
       await batch.commit()
+      setIsSubmitting(false)
       alert("게재취소되었습니다.")
       router.reload()
     }
@@ -181,17 +194,20 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
 
   return(
     <div style={{marginTop:"80px", marginLeft:"15px"}}>
+      {isSubmitting && <p style={{marginBottom:"10px", fontsize:"13px"}}>잠시만 기다려주세요...</p>}
       <Button
         variant="contained"
         size="small"
         onClick={onSubmit}
+        disabled={isSubmitting}
       >
         저장
       </Button>
 
       <div style={{width:'100%', display:"flex", alignItems:"center", marginTop:"10px"}}>
       <Button variant="contained" size="small" style={{fontSize:"13px"}} sx={{padding: "3px 5px !important", backgroundColor:"rgb(239, 123, 60)"}}
-        onClick={onApplyClick} disabled={postValues.condition==="waitingForConfirm" || postValues.condition==="confirm"}
+        onClick={onApplyClick} disabled={postValues.condition==="waitingForConfirm" || postValues.condition==="confirm" ||isSubmitting}
+        
       >
         {postValues.condition==="waitingForConfirm" ? "승인대기중" : "저장 후 승인신청"}
       </Button>
@@ -204,14 +220,14 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
       {(userData.roles.includes("super_admin") || userData.roles.includes(`${id}_super_admin`)||userData.roles.includes(`${id}_high_admin`)) && postValues.condition==="waitingForConfirm" &&
         <>
           <div style={{marginTop:"15px"}}>
-            <Button variant="contained" size="small" sx={{backgroundColor:"rgb(176, 36, 36)"}} onClick={onRejectClick}>
+            <Button variant="contained" size="small" sx={{backgroundColor:"rgb(176, 36, 36)"}} onClick={onRejectClick} disabled={isSubmitting}>
               승인 거절
             </Button>
             <TextField sx={{marginLeft:"15px", width:"500px"}} label="거절사유" size="small" multiline value={rejectText} onChange={(e)=>setRejectText(e.target.value)}/>
           </div>
 
           <div style={{marginTop:"15px"}}>
-            <Button variant="contained" size="small" sx={{backgroundColor:"rgb(45, 45, 179)"}} onClick={onConfirmClick}>
+            <Button variant="contained" size="small" sx={{backgroundColor:"rgb(45, 45, 179)"}} onClick={onConfirmClick} disabled={isSubmitting}>
               승인 및 게재
             </Button>
           </div>
@@ -221,7 +237,7 @@ const HandleSubmit = ({postValues, setPostValues, calendar, setCalendar, formVal
       {(userData.roles.includes("super_admin") || userData.roles.includes(`${id}_super_admin`)||userData.roles.includes(`${id}_high_admin`)) && postValues.condition==="confirm" &&
         <>
           <div style={{marginTop:"15px"}}>
-            <Button variant="contained" size="small" sx={{backgroundColor:"rgb(176, 36, 36)"}} onClick={onCancelClick}>
+            <Button variant="contained" size="small" sx={{backgroundColor:"rgb(176, 36, 36)"}} onClick={onCancelClick} disabled={isSubmitting}>
               게재 취소
             </Button>
           </div>

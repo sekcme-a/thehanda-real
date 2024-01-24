@@ -28,7 +28,7 @@ const ChatView = ({uid, userName}) =>{
     //     timeline: "2023.04.04"
     //   },
     // ])
-    const dbRef = db.collection("user").doc(uid).collection("chat").doc(team.teamId).collection("date").orderBy("date", "desc").limit(12)
+    const dbRef = db.collection("user").doc(uid).collection("chat").doc(team.teamId).collection("date").orderBy("date", "desc")
     
     const unsubscribe = dbRef.onSnapshot((querySnapshot) => {
       if(!querySnapshot.empty){

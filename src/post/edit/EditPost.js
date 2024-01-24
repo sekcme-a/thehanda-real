@@ -9,13 +9,14 @@ import MultipleChipInput from "./components/MultipleChipInput"
 import TextInput from "./components/TextInput"
 import ThumbnailInput from "./components/ThumbnailInput"
 import InfoInput from "./components/InfoInput"
+import ImageInput from "./components/ImageInput"
 import QuickLinkInput from "./components/QuickLinkInput"
 
 import { firestore as db } from "firebase/firebase"
 import { useRouter } from "next/router"
 import { TruckAlertOutline } from "mdi-material-ui"
 
-const EditPost = ({postValues, setPostValues}) => {
+const EditPost = ({postValues, setPostValues, selectedImageList, setSelectedImageList}) => {
   const router = useRouter()
   const {id, type} = router.query
   const [sections, setSections] = useState([])
@@ -87,6 +88,7 @@ const EditPost = ({postValues, setPostValues}) => {
 
       <InfoInput {...{postValues, setPostValues}} />
       
+      <ImageInput {...{selectedImageList, setSelectedImageList}} />
       
       <QuickLinkInput {...{postValues, setPostValues}} />
       

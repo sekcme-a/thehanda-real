@@ -121,6 +121,37 @@ export function DataProvider(props){
       return announcementList
     }
 
+
+
+    //=======스케쥴========//
+
+    //calendar [{colorValues:{red:"asdf", blue:"asdf"}, data: [{}] }]
+    const [calendar, setCalendar] = useState()
+
+    const [alarmType, setAlarmType] = useState([])
+
+    //프로그램 스케쥴에 추가할 사용자지정 스케쥴 (프로그램에 포함되어있지 않은 스케쥴)
+    const [programCustomSchedule, setProgramCustomSchedule] = useState()
+    //프로그램 스케쥴들
+    const [programSchedule, setProgramSchedule] = useState()
+
+    useEffect(()=>{
+        const fetchData = async() => {
+            if(team && team.teamId!==""){
+
+                //fetching calendar
+                db.collection("team_admin").doc(team.teamId).get().then((doc) => {
+                    if(doc.exists && doc.data().calendar)
+                        setCalendar(doc.data().calendar)
+                    else
+                        setCalendar({colorValues: {red:"",yellow:"",green:"",blue:"",purple:""}, data:[]})
+                })
+            }
+        }
+        fetchData() 
+    },[team])
+    
+
     const value = {
       teamList, setTeamList, fetch_team_list,
       team, setTeam, fetch_team,
@@ -128,7 +159,10 @@ export function DataProvider(props){
       fetch_userList,
       programThumbnailList, setProgramThumbnailList, fetch_program_thumbnailList,
       surveyThumbnailList, setSurveyThumbnailList, fetch_survey_thumbnailList,
-      announcementList, setAnnouncementList, fetch_announcementList
+      announcementList, setAnnouncementList, fetch_announcementList,
+      calendar,setCalendar,alarmType,setAlarmType,
+      programCustomSchedule,setProgramCustomSchedule,
+      programSchedule,setProgramSchedule
     }
 
     return <dataContext.Provider value={value} {...props} />

@@ -38,14 +38,17 @@ const Post = () => {
 
       if(type==="announcements"){
         const result = await fetch_announcementList(id)
-        setThumbnails(result)
+        if(result)
+          setThumbnails(result)
       }
       else if(type==="programs"){
         const result = await fetch_program_thumbnailList(id)
-        setThumbnails(result)
+        if(result)
+          setThumbnails(result)
       } else if(type==="surveys"){
         const result = await fetch_survey_thumbnailList(id)
-        setThumbnails(result)
+        if(result)
+          setThumbnails(result)
       }
       setIsLoading(false)
     }
@@ -58,10 +61,10 @@ const Post = () => {
     <>
       <Header {...{sections, selectedSection, setSelectedSection, type}} />
       {isLoading && <CircularProgress />}
-      {!isLoading && thumbnails.length===0 && <p style={{marginTop:"100px", textAlign:"center"}}>아직 게시물이 없습니다.</p>}
+      {!isLoading && thumbnails?.length===0 && <p style={{marginTop:"100px", textAlign:"center"}}>아직 게시물이 없습니다.</p>}
       <Grid container sx={{mt:"20px"}} spacing={1}>
         {
-          thumbnails.map((item, index) => {
+          thumbnails?.map((item, index) => {
             if(selectedSection==="all")
               return(
                 <Grid item key={index} xs={3}>

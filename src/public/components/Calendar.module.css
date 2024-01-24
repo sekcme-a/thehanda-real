@@ -1,0 +1,67 @@
+.dialog_container{
+  padding: 10px 20px;
+}
+
+.button_container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+
+.color_container{
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.item_container{
+  margin-right: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.dot{
+  border-radius: 50%;
+  width:7px;
+  height: 7px;
+  margin-right: 5px;
+}
+.color_text{
+  font-size: 15px;
+}
+.dot.red{
+  background-color: rgb(255, 76, 81);
+}
+.color_text.red{
+  color: rgb(255, 76, 81);
+}
+
+.dot.yellow{
+  background-color: rgb(255, 180, 0)
+}
+.color_text.yellow{
+  color: rgb(255, 180, 0)
+}
+
+.dot.green{
+  background-color: rgb(86, 202, 0)
+}
+.color_text.green{
+  color: rgb(86, 202, 0)
+}
+
+.dot.blue{
+  background-color: rgb(22, 177, 255)
+}
+.color_text.blue{
+  color: rgb(22, 177, 255)
+}
+
+.dot.purple{
+  background-color: rgb(145, 85, 253)
+}
+.color_text.purple{
+  color: rgb(145, 85, 253)
+}

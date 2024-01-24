@@ -26,7 +26,7 @@ const ThumbnailInput = ({postValues, setPostValues}) =>{
         <h1 style={{fontSize:"15px", width: "123px"}}>썸네일 업로드</h1>
         <DropperImage 
           setImgURL={handleThumbnailURL}
-          path={`contents/${id}/${postId}`}
+          path={`contents/${id}/${postId}/thumbnail/${Date.now()}`}
           imgURL={postValues.thumbnailURL}
           setLoading={setIsImgURLLoading}
           recommandSize="1080*756"

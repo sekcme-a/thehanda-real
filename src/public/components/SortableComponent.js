@@ -34,7 +34,7 @@ const SortableComponent = ({items, setItems, components, setComponents, mode, ul
     setItems(arrayMoveImmutable(items, oldIndex, newIndex))
   };
 
-  return <SortableList items={components} onSortEnd={onSortEnd} axis={mode} ulStyle={ulStyle} pressDelay={pressDelay} />;
+  return <SortableList  items={components} onSortEnd={onSortEnd} axis={mode} ulStyle={ulStyle} pressDelay={pressDelay} />;
 }
 
 export default SortableComponent

@@ -60,7 +60,7 @@ const Section = () => {
   
 
   const onSubmitClick = () => {
-    if(confirm("해당 내용을 적용하시겠습니까? (적용 즉시 어플에 적용됩니다.)")){
+    if(confirm("해당 내용을 적용하시겠습니까?")){
       db.collection("team").doc(id).collection("sections").doc(type).set({
         data: sections
       }).then(()=>{

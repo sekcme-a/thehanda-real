@@ -7,22 +7,24 @@ import useData from "context/data"
 import { firestore as db } from "firebase/firebase"
 
 const titleData = {
-  "/dashboard": "대쉬보드",
-  "/point": "한다 포인트",
-  "/profile": "내 프로필",
-  "/team/manageTeam" : "구성원 관리",
-  "/team/teamProfile": "팀 프로필",
-  "/user/userList" : "구성원 관리",
-  "/user/[uid]" : "유저 정보",
-  "/user/category" : "그룹 관리",
-  "/post/[type]" : "게시물 관리",
-  "/section/[type]": "유형 관리",
-  "/post/edit/[type]/[postId]": "게시물 편집",
-  "/post/edit/announcements/[postId]": "공지사항 편집",
-  "/chat": "한다챗",
-  "/result/[type]/[docId]" : "결과보기",
-  "/result/comments/[docId]" : "프로그램 후기",
-  "/comment/[docId]" : "프로그램 후기 작성"
+  "/[id]/dashboard": "대쉬보드",
+  "/[id]/[id]/point": "한다 포인트",
+  "/[id]/profile": "내 프로필",
+  "/[id]/team/manageTeam" : "구성원 관리",
+  "/[id]/team/teamProfile": "팀 프로필",
+  "/[id]/user/userList" : "구성원 관리",
+  "/[id]/user/[uid]" : "유저 정보",
+  "/[id]/user/category" : "그룹 관리",
+  "/[id]/post/[type]" : "게시물 관리",
+  "/[id]/section/[type]": "유형 관리",
+  "/[id]/post/edit/[type]/[postId]": "게시물 편집",
+  "/[id]/post/edit/announcements/[postId]": "공지사항 편집",
+  "/[id]/chat": "한다챗",
+  "/[id]/result/[type]/[docId]" : "결과보기",
+  "/[id]/result/comments/[docId]" : "프로그램 후기",
+  "/[id]/comment/[docId]" : "프로그램 후기 작성",
+  "/[id]/schedule/programSchedule" : "프로그램 스케쥴",
+  "/[id]/schedule/teamSchedule" : "팀 스케쥴",
 }
 
 const Topbar = () => {
@@ -37,11 +39,12 @@ const Topbar = () => {
 
   useEffect(()=>{
     if(id)
-      setTitle(titleData[router.pathname.slice(id.length)])
+      setTitle(titleData[router.pathname.replace(id,"")])
+    console.log(router.pathname.replace(id,""))
     // else
     //   setTitle(titleData)
     // console.log(router.pathname.slice(id.length))
-  },[router.pathname])
+  },[router])
 
   return(
     <div className={styles.main_container}>

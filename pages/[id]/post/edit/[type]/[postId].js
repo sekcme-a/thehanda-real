@@ -61,6 +61,10 @@ const Program = () => {
     history: []
   })
 
+  const [selectedImageList, setSelectedImageList] = useState([
+
+  ])
+
   const [formValues, setFormValues] = useState([
 
   ])
@@ -73,7 +77,11 @@ const Program = () => {
   useEffect(()=>{
     const fetchData = async () => {
       const postDataResult = await FUNCTION.fetch_post_data(id, type,  postId)
-      if(postDataResult) setPostValues({...postDataResult})
+      if(postDataResult) {
+        setPostValues({...postDataResult})
+        if(postDataResult.imageList?.length>0)
+          setSelectedImageList(postDataResult.imageList)
+      }
 
 
 
@@ -102,10 +110,10 @@ const Program = () => {
       <Stepper step={step} handleStep={(num) => setStep(num)} data={STEPPER_STEP}/>
     
       <div className={styles.content_container}>
-        {step === 0 && <EditPost {...{postValues, setPostValues}} />}
+        {step === 0 && <EditPost {...{postValues, setPostValues,selectedImageList,setSelectedImageList}} />}
         {step === 1 && <CustomForm contentMode formData={postValues.formData} setFormData={handleFormData} teamId={id} type="program" />}
         {step === 2 && <PublishSetting  {...{postValues, setPostValues, calendar, setCalendar}}  />}
-        {step === 2 && <HandleSubmit {...{postValues, setPostValues, calendar, setCalendar, formValues, setFormValues}} />}
+        {step === 2 && <HandleSubmit {...{postValues, setPostValues, calendar, setCalendar, formValues, setFormValues, selectedImageList}} />}
 
         <div className={styles.bottom_container}>
           {step === 0 &&
