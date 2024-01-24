@@ -56,14 +56,14 @@ const Timeline = ({data}) => {
             //프로그램 참여/미참여
             const searchedPost = searchPost(programList, doc.data().docId)
             return({
-              title: doc.data().type==="participate" ? "프로그램 참여처리" : "프로그램 불참처리",
+              title: doc.data().condition===true ? "프로그램 참여처리" : "프로그램 불참처리",
               content: searchedPost ? searchedPost.title : "삭제된 프로그램",
               createdAt: doc.data().createdAt.toDate().toLocaleString('ko-KR').replace(/\s/g, ''),
               docId: doc.data().docId,
               type: doc.data().type
             })
           }
-        })
+        }).filter(Boolean)
 
         setTimelineList(list)
         console.log(list)

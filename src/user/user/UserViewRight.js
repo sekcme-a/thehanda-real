@@ -101,9 +101,9 @@ const UserViewRight = ({data, setData}) => {
           <Card style={value!=="memo" ? {display:"none"}: {padding: '30px 20px'}}>
             <Memo data={data} />
           </Card>
-          {/* <Card style={value!=="timeline" ? {display:"none"}: {padding: '30px 20px'}}>
+          <Card style={value!=="timeline" ? {display:"none"}: {padding: '30px 20px'}}>
             <Timeline data={data} />
-          </Card> */}
+          </Card>
         {/* </TabPanel> */}
         {/* <TabPanel sx={{ p: 0 }} value='group' >
           <Card>

@@ -41,7 +41,7 @@ export const fetch_result_data = async (teamId, type, docId) => {{
             id: doc.id,
             ...doc.data(),
             confirmed: doc.data().confirmed ? "승인" : "미승인",
-            participated: doc.data().participated ? "참여" : doc.data().confirmed && doc.data().paticipated===false ? "불참" : "-",
+            participated: doc.data().participated ? "참여" : doc.data().confirmed && !doc.data().paticipated ? "불참" : "-",
             realName: basicProfile?.realName || "삭제된 유저",
             phoneNumber: basicProfile?.phoneNumber || "삭제된 유저",
             deleted: basicProfile ? false : true
@@ -158,7 +158,8 @@ export const participate_users = async (teamId, type, docId, checkedList, isPart
           }
           batch.set(db.collection("user").doc(uid).collection("history").doc(),{
             createdAt: new Date(),
-            type: isParticipated ? "participate" : "disparticipate",
+            type: "participate",
+            condition: isParticipated,
             docId: docId,
             teamId: teamId
           })
