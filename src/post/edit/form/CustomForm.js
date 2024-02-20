@@ -24,6 +24,8 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
   const [componentData, setComponentData] = useState([])
   const [triggerDelete, setTriggerDelete] = useState("")
 
+  const [triggerCopy, setTriggerCopy] = useState("")
+
   const [selectedFormId, setSelectedFormId] = useState("")
 
 
@@ -41,7 +43,10 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
       }
       else return form
     })
-    if(selectedIndex===null) alert(`편집한 폼을 찾을 수 없습니다.\nError: 101AspefCF`)
+    if(selectedIndex===null){
+      alert(`편집한 폼을 찾을 수 없습니다.\nError: 101AspefCFeditFormData`)
+      return
+    }
     setFormData([...tempFormData])
     const tempComponentData = componentData?.map((compo, index) => {
       if(selectedIndex === index){
@@ -51,9 +56,6 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
     setComponentData([...tempComponentData])
   }
 
-  useEffect(() => {
-    console.log(formData)
-  },[formData])
 
   useEffect(() => {
     let temp = []
@@ -79,11 +81,33 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
     }
   },[triggerDelete])
 
+  useEffect(()=> {
+    if(triggerCopy!=="") {
+      let selectedIndex = null
+      formData?.map((form, index) => {
+        if(form.id === triggerCopy) {
+          selectedIndex = index
+        }
+      })
+      if(selectedIndex===null) {
+        alert(`편집한 폼을 찾을 수 없습니다.\nError: 101AspefCFcopyForm`); return
+      }
+      const tempFormData = [...formData, {...formData[selectedIndex], id: `${formData[selectedIndex].id}_copy`}]
+      const tempCompoData = [...componentData, renderComponent({...formData[selectedIndex], id: `${formData[selectedIndex].id}_copy`})]
+      setFormData(tempFormData)
+      setComponentData(tempCompoData)
+    }
+
+  },[triggerCopy])
+
   const onMenuClick = (id,mode) => {
     if(mode==="삭제"){
       if(confirm("해당 폼을 삭제하시겠습니까?")){
         setTriggerDelete(id)
       }
+    }
+    else if(mode==="복사"){
+      setTriggerCopy(id)
     }
     else if (mode === "편집"){
       setSelectedFormId(id)

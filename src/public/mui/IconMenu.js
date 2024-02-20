@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const IconMenu = ({
   icon="threeDot",
@@ -15,6 +16,14 @@ const IconMenu = ({
       renderComponent: () => (
         <div style={{display:"flex", alignItems:"center"}}>
           <EditRoundedIcon style={{fontSize:"17px", marginRight:"5px"}}/>편집
+        </div>
+      )
+    },
+    {
+      id: "복사",
+      renderComponent: () => (
+        <div style={{display:"flex", alignItems:"center"}}>
+          <ContentCopyIcon style={{fontSize:"17px", marginRight:"5px"}}/>복사
         </div>
       )
     },
