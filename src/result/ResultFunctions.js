@@ -9,9 +9,11 @@ export const fetch_header_data_and_title = async (teamId, type, docId, forCommen
 
       if (doc.exists && doc.data().formData) {
 
-        const formData = doc.data().formData.map((item) => (
-          {key: item.id, label: item.title}
-        ))
+        const formData = doc.data().formData.map((item) => {
+          if(item.type!=="text_area")
+            return {key: item.id, label: item.title}
+        }).filter(Boolean)
+
         if(!forComments)
           resolve({title: doc.data().title, headerData: [{key:"realName", label:"실명(프로필 상)"}, {key:"phoneNumber", label:"전화번호(프로필 상)"},{key:"confirmed", label:"신청 승인"}, {key:"participated", label:"참여 여부"}, ...formData]})
         else
@@ -36,12 +38,12 @@ export const fetch_result_data = async (teamId, type, docId) => {{
         const result = await Promise.all(query.docs.map(async (doc) => {
           const userDoc = await db.collection("user").doc(doc.id).get();
           const basicProfile = userDoc.exists && userDoc.data().basicProfile;
-        
+          console.log(doc.data().participated)
           return {
             id: doc.id,
             ...doc.data(),
             confirmed: doc.data().confirmed ? "승인" : "미승인",
-            participated: doc.data().participated ? "참여" : doc.data().confirmed && !doc.data().paticipated ? "불참" : "-",
+            participated: doc.data().participated ? "참여" : (doc.data().confirmed && doc.data().participated===false) ? "불참" : "-",
             realName: basicProfile?.realName || "삭제된 유저",
             phoneNumber: basicProfile?.phoneNumber || "삭제된 유저",
             deleted: basicProfile ? false : true

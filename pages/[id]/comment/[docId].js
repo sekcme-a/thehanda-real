@@ -110,6 +110,7 @@ const Comment = () => {
             createdAt: new Date(),
             formData: postValues.formData,
             teamId: id,
+            endAt: postValues.endAt,
           })
         }))
       }
@@ -201,17 +202,21 @@ const Comment = () => {
             <Switch size="small" checked={postValues.isRequired} 
               onChange={(e) => setPostValues(prev => ({...prev, isRequired: e.target.checked}))}/>
               후기 필수{`(필수 체크 시, 유저가 후기를 작성해야 다른 프로그램을 신청할 수 있습니다.)`}
-            
+     
+            <div style={{display:"flex", flexWrap:"wrap", alignItems:"center", marginTop:"30px"}}>
+              <Button variant="contained" color="warning" margin="dense" onClick={onSubmitClick} disabled={appliedAt}>저 장</Button>
+              {appliedAt && <p style={{marginLeft:"10px"}}>이미 게재된 후기는 변경하실 수 없으며 다시 게재하셔야합니다.</p>}
+            </div>
 
-            <div style={{marginTop:'30px'}} />
-            <Button variant="contained" color="warning" margin="dense" onClick={onSubmitClick}>저 장</Button>
             <div style={{marginTop:'10px'}} />
+
             <div style={{display:"flex", flexWrap:"wrap", alignItems:"center"}}>
               <Button variant="contained" color="success" margin="dense" onClick={onApplyClick} disabled={isSending}>
                 {isSending ? "게재중" : "저장 및 게재"}
               </Button>
               <p style={{marginLeft:"10px"}}>참여한 유저들에게만 후기가 전송됩니다.</p>
             </div>
+
             {appliedAt && <p style={{marginTop:"10px"}}>{`${appliedAt.toDate().toLocaleString("ko-kr")}에 게재되었습니다.`}</p>}
           </div>
         }

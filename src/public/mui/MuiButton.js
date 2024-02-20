@@ -31,6 +31,7 @@ const MuiButton = ({
       disabled={disabled || isLoading}
       style={style}
       sx={sx}
+      
     >
       {isLoading && <CircularProgress style={{ width: "20px", height: "20px", padding:"2px"}}/>}
       

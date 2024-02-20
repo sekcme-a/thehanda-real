@@ -116,25 +116,22 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
 
 
   const onRejectClick = async () => {
-    if(rejectText==="" || rejectText===" ")
-      alert("거절 사유를 입력해주세요.")
-    else{
-      const batch = db.batch()
 
-      batch.update(db.collection("team").doc(id).collection(type).doc(postId), {
-        history: [{type:"reject", date: new Date(), text: `"${userData.name}" 님에 의해 승인거절됨.`, rejectText: rejectText}, ...postValues.history],
-        condition: "decline",
-        savedAt: new Date()
-      })
-      
-      batch.update(db.collection("team").doc(id).collection(`${type}_thumbnail`).doc(postId), {
-        condition: "decline",
-        savedAt: new Date()
-      })
+    const batch = db.batch()
 
-      await batch.commit()
-      alert("승인 거절되었습니다.")
-    }
+    batch.update(db.collection("team").doc(id).collection(type).doc(postId), {
+      history: [{type:"reject", date: new Date(), text: `"${userData.name}" 님에 의해 승인거절됨.`, rejectText: rejectText}, ...postValues.history],
+      condition: "decline",
+      savedAt: new Date()
+    })
+    
+    batch.update(db.collection("team").doc(id).collection(`${type}_thumbnail`).doc(postId), {
+      condition: "decline",
+      savedAt: new Date()
+    })
+
+    await batch.commit()
+    alert("승인 거절되었습니다.")
   }
 
   const onConfirmClick = async () => {
@@ -223,7 +220,7 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
             <Button variant="contained" size="small" sx={{backgroundColor:"rgb(176, 36, 36)"}} onClick={onRejectClick} disabled={isSubmitting}>
               승인 거절
             </Button>
-            <TextField sx={{marginLeft:"15px", width:"500px"}} label="거절사유" size="small" multiline value={rejectText} onChange={(e)=>setRejectText(e.target.value)}/>
+            {/* <TextField sx={{marginLeft:"15px", width:"500px"}} label="거절사유" size="small" multiline value={rejectText} onChange={(e)=>setRejectText(e.target.value)}/> */}
           </div>
 
           <div style={{marginTop:"15px"}}>

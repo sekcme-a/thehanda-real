@@ -17,10 +17,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 import SortableComponent from "src/public/components/SortableComponent"
+import { Coffee } from "mdi-material-ui"
+import { arrayMoveImmutable } from "array-move"
 
 
 
-const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentMode, id}) => {
+const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamName, contentMode, id}) => {
   const [type, setType] = useState('')
   const [typeText, setTypeText] = useState('')
   const [titleValue, setTitleValue] = useState({
@@ -29,11 +31,6 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
     isError: false,
   })
   const [subtitleValue, setSubtitleValue] = useState({
-    value: "",
-    helperText: "",
-    isError: false,
-  })
-  const [locationValue, setLocationValue] = useState({
     value: "",
     helperText: "",
     isError: false,
@@ -49,9 +46,31 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
   //for SortableComponents.js
   const [items, setItems] = useState([])
   const [components, setComponents] = useState([])
+  const [triggerDelete, setTriggerDelete] = useState("")
 
-  const [textData, setTextData] = useState("")
-  const onTextChange = (html) =>{ setTextData(html)}
+
+  useEffect(()=> {
+    if(id && id!==""){
+      const foundObj = formData.find(obj => obj.id === id)
+      if(foundObj){
+        console.log(foundObj)
+        setType(foundObj.type)
+        setTypeText(foundObj.typeText)
+        setIsRequired(foundObj.isRequired)
+        setTitleValue(prev => ({...prev, value: foundObj.title}))
+        setSubtitleValue(prev => ({...prev, value: foundObj.subtitle}))
+        setItems(prev => ([...prev, ...foundObj.items]))
+        
+        const tempComponentData = foundObj.items.map((item) => {
+          return renderComponent(item)
+        })
+        setComponents(tempComponentData)
+      }else{
+        alert(`해당 폼을 찾을 수 없습니다.\nError: 101AspefaD`)
+      }
+    }
+  },[])
+
 
   
   const onTextInputChange = (e) => {
@@ -61,18 +80,14 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
   }
   const onTitleChange = e => setTitleValue({ ...titleValue, value: e.target.value, helperText: "", isError: false })
   const onSubtitleChange = e => setSubtitleValue({ ...subtitleValue, value: e.target.value, helperText: "", isError: false })
-  const handleLocationChange = e => {
-    if(e.target.value === "main")
-      setLocationValue({...locationValue, value: e.target.value, helperText:"프로필 정보에 바로 위치하게 됩니다.", isError: false})
-    else if(e.target.value === "sub")
-      setLocationValue({...locationValue, value: e.target.value, helperText:"프로필 정보의 추가정보란에 위치하게 됩니다.", isError: false})
-  }
+
 
   const handleChange = event => {
     setType(event.target.value)
     if (event.target.value === "text_area") {
       setHelperText("원하는 문구를 추가할 수 있습니다.")
       setTypeText("문구 추가")
+      setIsRequired(false)
     }
     else if (event.target.value === "single_checkbox") {
       setHelperText("체크박스 형태로, 보기들 중 한개의 보기만 선택할 수 있습니다.")
@@ -87,39 +102,86 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
       setTypeText("목록 선택형")
     }
     else if (event.target.value === "number_select") {
+      setItems([])
+      setComponents([])
       setHelperText("1,000,000,00자리 이하 숫자를 입력할 수 있습니다.")
       setTypeText("숫자 입력형")
     }
     else if (event.target.value === "small_input") {
+      setItems([])
+      setComponents([])
       setHelperText("100자 이하를 입력할 수 있습니다.")
       setTypeText("주관식 단답형")
     }
     else if (event.target.value === "free_input") {
+      setItems([])
+      setComponents([])
       setHelperText("1000자 이하를 입력할 수 있습니다.")
       setTypeText("주관식 서술형")
     }
     else if (event.target.value === "date_time") {
+      setItems([])
+      setComponents([])
       setHelperText("날짜나 시간 혹은 둘다 입력할 수 있습니다.")
       setTypeText("날짜/시간")
     }
     else if (event.target.value === "phone_number") {
+      setItems([])
+      setComponents([])
       setHelperText("전화번호를 입력할 수 있습니다.")
       setTypeText("전화번호")
     }
     else if (event.target.value === "address") {
+      setItems([])
+      setComponents([])
       setHelperText("우편번호와 주소를 입력할 수 있습니다.")
       setTypeText("주소")
     }
     else if (event.target.value === "image") {
+      setItems([])
+      setComponents([])
       setHelperText("이미지를 첨부할 수 있습니다. 1MB이상 이미지는 자동 압축됩니다.")
       setTypeText("이미지")
     }
     else if (event.target.value === "file") {
+      setItems([])
+      setComponents([])
       setHelperText("20MB이하의 파일을 첨부할 수 있습니다.")
       setTypeText("파일")
     }
   }
 
+  const onItemDeleteClick = (data) => {
+    if(confirm(`해당 옵션을 삭제하시겠습니까?\n내용: ${data}`)){
+      setTriggerDelete(data)
+    }
+  }
+  useEffect(()=> {
+    if(triggerDelete!==""){
+      for (let i=0; i<items.length;i++){
+        if(triggerDelete === items[i]){
+          const temp = arrayMoveImmutable(items, i, items.length-1)
+          temp.pop()
+          setItems(temp)
+
+          const temp2 = arrayMoveImmutable(components, i, components.length-1)
+          temp2.pop()
+          setComponents(temp2)
+        }
+      }
+    }
+  },[triggerDelete])
+
+  const renderComponent = (text) => (
+    <div key={text}
+      style={{display:"flex", width:"350px", padding: "7px 10px", marginBottom:"5px",
+      justifyContent:"space-between",alignItems:"center", cursor:"pointer",
+      border:"1px solid #888", borderRadius:"5px"}}>
+      <p>{ text }</p>
+      <p onClick={()=>onItemDeleteClick(text)}
+        style={{color:"rgb(201, 28, 28)", fontSize:"12px", fontWeight:"bold", cursor:"pointer"}}>X</p>
+    </div> 
+  )
 
   const onAddClick = () => {
     if (items.includes(textInput)) {
@@ -132,7 +194,12 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
     }
     else {
       setItems([...items, textInput])
-      setComponents([...components, <h2 key={textInput} style={{marginLeft: "10px", cursor: "pointer"}}>{ textInput }</h2> ])
+      setComponents(
+        [
+          ...components,
+          renderComponent(textInput)
+        ]
+      )
       // setComponents([...components, {value: textInput, component:<p>{ textInput }</p> }])
       setTextInput("")
     }
@@ -148,15 +215,30 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
 
   const onSubmitClick = async() => {
     if (isCanSubmit()) {
-      try {
-        const id = await db.collection("user").doc().id
-        addFormData({id:id, type: type, typeText: typeText, title: titleValue.value, subtitle: subtitleValue.value, items: items, isRequired: isRequired, text: textData })
+      if(id && id!==""){
+        //이미 작성한 폼의 편집일 경우
+        editFormData(
+          {
+            id: id,
+            type: type,
+            typeText: typeText,
+            title: titleValue.value,
+            subtitle: subtitleValue.value,
+            items: items,
+            isRequired: isRequired
+          }
+        )
         handleCloseDialog()
-      } catch (e) {
-        alert(e)
-        console.log(e)
+      }else {
+        try {
+          const randomId = await db.collection("user").doc().id
+          addFormData({id:randomId, type: type, typeText: typeText, title: titleValue.value, subtitle: subtitleValue.value, items: items, isRequired: isRequired,})
+          handleCloseDialog()
+        } catch (e) {
+          alert(e)
+          console.log(e)
+        }
       }
-
     }
   }
   const isCanSubmit = () => {
@@ -166,10 +248,9 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
       return true;
     else if(titleValue.value==="")
       setTitleValue({ ...titleValue, helperText: "제목은 빈칸일 수 없습니다.", isError: true })
+    else if(id && id!=="") return true //이미 작성한 폼 수정일 경우 제목 검사 필요 X
     else if (isTitleAlreadyExist())
       setTitleValue({...titleValue, helperText: "이미 존재하는 제목입니다.", isError: true })
-    // else if(locationValue.value==="")
-    //   setLocationValue({ ...locationValue, helperText: "위치를 선택해주세요.", isError: true })
     else return true;
     
     return false
@@ -218,10 +299,11 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
         </div> */}
         
 
-        {type !== "text_area" &&
+        {/* {type !== "text_area" && */}
           <TextField id="standard-basic" label="제목" variant='standard'
             value={titleValue.value} onChange={onTitleChange} helperText={titleValue.helperText}
-            error={titleValue.isError} />}
+            error={titleValue.isError} />
+            {/* } */}
         <div style={{width:"100%", marginTop:"5px"}}>
           <TextField id="standard-basic" label="부가내용" variant='standard' fullWidth multiline maxRows={3}
             value={subtitleValue.value} onChange={onSubtitleChange} helperText={subtitleValue.helperText}
@@ -242,7 +324,7 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
             <Button variant="text" sx={{mt: 1.5}} onClick={onAddClick}>추가</Button>
           </div>
 
-          <SortableComponent items={items} setItems={setItems} components={components} setComponents={setComponents} mode="xy" ulStyle={{ display: "flex" }} pressDelay={0} />
+          <SortableComponent items={items} setItems={setItems} components={components} setComponents={setComponents} mode="y" ulStyle={{ display: "flex", maxWidth:"400px", flexWrap:"wrap" }} pressDelay={150} />
             
           </>
         }
@@ -273,10 +355,9 @@ const AddDialog = ({addFormData, handleCloseDialog, formData, teamName, contentM
         <div className={styles.submit_button_container}>
           <Button variant="outlined" onClick={onSubmitClick} style={{ padding: "3px 10px" }}
             disabled={(type === "single_checkbox" || type === "multiple_checkbox" || type === "list_select") ?
-              items.length === 0 :
-              (type === "text_area") ?
-                textData === "" :
-                titleValue.value === ""} >데이터 삽입</Button>
+              items.length === 0 || titleValue.value==="" : 
+              type==="" ? true :
+              titleValue.value === ""} >데이터 {id&&id!=="" ? "편집" : "삽입"}</Button>
         </div>
       </div>
       <div className={styles.image_container}>
