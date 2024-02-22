@@ -8,14 +8,18 @@ import FUNCTION from "./HeaderFunction"
 import useData from "context/data"
 
 
-import { FormControl, InputLabel,Select, MenuItem } from "@mui/material"
-const Header = ({sections, selectedSection, setSelectedSection}) => {
+import { FormControl, InputLabel,Select, MenuItem, TextField } from "@mui/material"
+import MuiTextField from "src/public/mui/MuiTextField"
+import MuiButton from "src/public/mui/MuiButton"
+const Header = ({searchInput, setSearchInput, sections, selectedSection, setSelectedSection, onSearchClick}) => {
   const router = useRouter()
   const {id, type} = router.query
 
   const [text, setText] = useState("")
 
+
   useEffect(()=> {
+    setSearchInput("")
     if(type==="programs") setText("프로그램")
     else if (type==="surveys") setText("설문조사")
     else setText("공지사항")
@@ -38,6 +42,8 @@ const Header = ({sections, selectedSection, setSelectedSection}) => {
     const randomDoc = await db.collection("team").doc(id).collection(type).doc().get()
     router.push(`/${id}/post/edit/${type}/${randomDoc.id}`)
   }
+
+
 
   return(
     <>
@@ -63,6 +69,26 @@ const Header = ({sections, selectedSection, setSelectedSection}) => {
             }
           </Select>
         </FormControl>
+
+        <MuiTextField
+          template="search"
+          outlined
+          label=""
+          placeholder="검색"
+          value={searchInput}
+          setValue={setSearchInput}
+          sx={{mr:"10px"}}
+          secondary
+          onEnterPress={()=>onSearchClick(searchInput)}
+        />
+
+        <MuiButton
+          small
+          sx={{mr:"10px"}}
+          label="검색"
+          secondary
+          onClick={()=>onSearchClick(searchInput)}
+        />
         
         <div className={styles.main_button} onClick={onNewProgramClick}>
           + 새 {text}

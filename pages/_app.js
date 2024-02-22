@@ -11,6 +11,7 @@ import Topbar from 'src/public/components/layout/Topbar'
 import { useRouter } from "next/router";
 import { auth } from "firebase/firebase";
 import { firestore as db } from "firebase/firebase";
+import AdminNotification from "src/public/components/layout/notification/AdminNotification";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter()
@@ -31,7 +32,7 @@ export default function App({ Component, pageProps }) {
           <DataProvider>
             <AuthStateChanged>
             <ThemeProvider theme={theme}>
-            
+
                 {router.pathname.includes("auth") || router.pathname.includes("noAuthority") || router.pathname.includes("super_admin") ? 
                   <Component {...pageProps} />
                   :
@@ -39,7 +40,10 @@ export default function App({ Component, pageProps }) {
                     <Navbar />
                     <div style={{width:"calc(100% - 250px)", float:"right", boxSizing:"border-box"}}>
                       <Topbar />
-                      <div style={{padding: "20px 30px"}}><Component {...pageProps} /></div>
+                      <div style={{padding: "20px 30px"}} >
+                        <AdminNotification />
+                        <Component {...pageProps} />
+                      </div>
                     </div>
                   </div>
                 }

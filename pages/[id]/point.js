@@ -60,6 +60,7 @@ const Point = () => {
 
   const onDateSearchClick = async () => {
     const YYYYMMList = getYYYYMMList(sortStartDate, sortEndDate)
+    console.log(YYYYMMList)
     let historyList = []
     await Promise.all(YYYYMMList.map(async (YYYYMM) => {
       const historyDoc = await db.collection("team_admin").doc(team.teamId).collection("points").doc(YYYYMM.toString()).get();

@@ -44,24 +44,21 @@ export const getYYYYMMList = (start, end) => {
   const result = [];
   let currentDate = new Date(start);
   let endDate = new Date(end)
-  endDate.setMonth(endDate.getMonth()+1)
 
-  const endYYYYMM = endDate.getFullYear()*100 + endDate.getMonth()
+  const endYYYYMM = endDate.getFullYear()*100 + endDate.getMonth()+1
 
-  while (currentDate.getFullYear()*100 + currentDate.getMonth() <= endYYYYMM) {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; // Month is zero-based
-    const YYYYMM = year * 100 + month;
+  let currentYYYYMM = currentDate.getFullYear()*100 + currentDate.getMonth()+1
 
-    result.push(YYYYMM);
+  while (currentYYYYMM <= endYYYYMM) {
 
-    // Move to the next month
-    currentDate.setMonth(currentDate.getMonth() + 1);
+    result.push(currentYYYYMM);
 
-    // Check if the next month exceeds the endDate
-    // if (currentDate > endDate && currentDate.getMonth() !== endDate.getMonth()) {
-    //   break;
-    // }
+    //12월이면 다음년으로
+    if(currentYYYYMM%100 === 12){
+      currentYYYYMM = ((currentYYYYMM/100+1)*100)+1
+    }else {
+      currentYYYYMM = currentYYYYMM+1
+    }
   }
 
   return result;

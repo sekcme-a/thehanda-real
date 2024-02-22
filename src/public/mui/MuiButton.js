@@ -9,7 +9,7 @@ isLoading: 로딩시엔 disabled, 로딩중 아이콘 표시
 */
 const MuiButton = ({
   contained, outlined, text,
-  small,large,
+  small, medium, large,
   primary, secondary, error, info, warning, success,
   fullWidth,
   onClick,
@@ -24,7 +24,7 @@ const MuiButton = ({
   return(
     <Button
       variant={text ? "text" : outlined ? "outlined" : "contained"}
-      size={small ? "small" : large ? "large" : "medium"}
+      size={medium ? "medium" : large ? "large" : "small"}
       color={secondary ? "secondary" : error ? "error" : info ? "info" : warning ? "warning" : success ? "success" : "primary"}
       fullWidth={fullWidth}
       onClick={onClick}

@@ -1,6 +1,8 @@
 import { TextField, Button, Grid } from "@mui/material"
 import styles from "./index.module.css"
-
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import { arrayMoveImmutable } from "array-move";
 
 const InfoInput = ({postValues, setPostValues}) => {
 
@@ -21,6 +23,21 @@ const InfoInput = ({postValues, setPostValues}) => {
     setPostValues(prevValues => ({
       ...prevValues,
       info: [...temp]
+    }))
+  }
+
+  const onUpClick = (index) => {
+    const sortedResult = arrayMoveImmutable(postValues.info, index, index-1)
+    setPostValues(prevValues => ({
+      ...prevValues,
+      info: sortedResult
+    }))
+  }
+  const onDownClick = (index) => {
+    const sortedResult = arrayMoveImmutable(postValues.info, index, index+1)
+    setPostValues(prevValues => ({
+      ...prevValues,
+      info: sortedResult
     }))
   }
 
@@ -46,6 +63,14 @@ const InfoInput = ({postValues, setPostValues}) => {
                 <Button color="error" variant="contained" size="small"
                   onClick={()=>onDeleteInfoClick(index)}>
                   삭제
+                </Button>
+                <Button sx={{mt: "10px"}} variant="contained" size="small" color="success"
+                  onClick={()=>onUpClick(index)}>
+                  <KeyboardArrowUpRoundedIcon sx={{fontSize:"15px"}}/>
+                </Button>
+                <Button sx={{mt:"4px"}} variant="contained" size="small" color="success"
+                  onClick={()=>onDownClick(index)}>
+                  <KeyboardArrowDownRoundedIcon sx={{fontSize:"15px"}} />
                 </Button>
               </Grid>
             </Grid>

@@ -88,7 +88,7 @@ const EditPost = ({postValues, setPostValues, selectedImageList, setSelectedImag
 
       <InfoInput {...{postValues, setPostValues}} />
       
-      <ImageInput {...{selectedImageList, setSelectedImageList}} />
+      {/* <ImageInput {...{selectedImageList, setSelectedImageList}} /> */}
       
       <QuickLinkInput {...{postValues, setPostValues}} />
       
