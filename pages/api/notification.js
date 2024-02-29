@@ -6,16 +6,16 @@ const expo = new Expo();
 
 
 export default async function handler(req, res) {
-  const { token, title,  message, link, linkDetail } = req.body;
+  const { token, title,  message, data } = req.body;
 
-  await sendPushNotification(token,title, message, link, linkDetail);
+  await sendPushNotification(token,title, message, data);
 
   res.status(200).json({ success: true });
 }
 
 
 
-const sendPushNotification = async (pushToken,title, message, link, linkDetail) => {
+const sendPushNotification = async (pushToken,title, message, data) => {
   // Check if the push token is valid
   if (!Expo.isExpoPushToken(pushToken)) {
     console.error('Invalid push token:', pushToken);
@@ -28,11 +28,7 @@ const sendPushNotification = async (pushToken,title, message, link, linkDetail) 
     sound: 'default',
     title: title,
     body: message,
-    data: {
-      message: message,
-      link: link,
-      linkDetail: linkDetail
-    },
+    data: data,
   };
 
   // Send the notification

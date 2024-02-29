@@ -3,7 +3,7 @@ import { firestore as db } from "firebase/firebase";
 import { checkIsValidPoint, usePoint } from "./handlePoints";
 import useData from "context/data";
 
-export const sendNotification = (uid, title, message, type, link, linkDetail) => {
+export const sendNotification = (uid, title, message, type, data) => {
   return new Promise(async (resolve, reject) => {
 
 
@@ -43,7 +43,7 @@ export const sendNotification = (uid, title, message, type, link, linkDetail) =>
           headers: {
             'content-type': 'application/json'
           },
-          body: JSON.stringify({...{token, title, message, link, linkDetail}})
+          body: JSON.stringify({...{token, title, message, data}})
         });
         resolve({uid: uid, title:"전송 성공", text:`알림을 성공적으로 전송했습니다.` , response: response});
       } catch (error) {
@@ -53,7 +53,7 @@ export const sendNotification = (uid, title, message, type, link, linkDetail) =>
   });
 }
 
-export const sendMultipleNotification = (uidList, title, message, type, link, linkDetail, teamId, name) => {
+export const sendMultipleNotification = (uidList, title, message, type, data, teamId, name) => {
   return new Promise(async (resolve, reject) => {
     try {
       // console.log(teamId)
@@ -75,7 +75,7 @@ export const sendMultipleNotification = (uidList, title, message, type, link, li
 
       const result = await Promise.all(uidList.map(async (uid) => {
         try {
-          const res = await sendNotification(uid, title, message, type, link, linkDetail);
+          const res = await sendNotification(uid, title, message, type, data);
           return res;
         } catch (e) {
           return e;

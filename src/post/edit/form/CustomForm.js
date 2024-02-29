@@ -119,7 +119,7 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
     return(
       <div className={`${styles.component_container} ${styles.single_checkbox_container}`}>
         {data.profile && <h1><strong>[프로필 데이터]</strong></h1>}
-        <h1><strong>{data.typeText}</strong></h1>
+        <h1><strong>{data.typeText || "가족구성원 선택"}</strong>{data.isRequired && "(필수)"}</h1>
         <h2>제목 : {data.title}</h2>
         {data.subtitle!=="" && <h2>부가내용 : {data.subtitle}</h2>}
         {console.log(data.text)}
@@ -137,22 +137,13 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
             </ul>
           </h3>
         }
-        {data.isRequired && <h1>필수 항목</h1>}
-        {/* <div>
-          {data.type === "single_checkbox" && 
-            <>
-
-            </>
-          }
-        </div> */}
-        <div className={styles.component_button_container} >
-          <IconMenu
-            handleMenuClick={(mode) => onMenuClick(data.id, mode)}
-          />
-          {/* <EditIcon style={{color:"rgb(135, 135, 135)"}}/> */}
-          {/* <EditRoundedIcon sx={{ mr: "2px" }} onClick={()=>onEditClick(data.title)} /> */}
-          {/* <DeleteRoundedIcon onClick={()=>onDeleteClick(data.id)} /> */}
-        </div>
+        {data.type!=='family' &&
+          <div className={styles.component_button_container} >
+            <IconMenu
+              handleMenuClick={(mode) => onMenuClick(data.id, mode)}
+            />
+          </div>
+        }
       </div>
     )
   }

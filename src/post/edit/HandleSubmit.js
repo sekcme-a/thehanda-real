@@ -47,7 +47,7 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
             id:"family",
             isRequired: true,
             title: "가족구성원 선택",
-            subtitle: "신청할 가족구성원을 모두 선택해주세요.",
+            subtitle: "신청할 가족구성원을 선택해주세요.",
             type: "family",
           },
           ...newPostValues.formData

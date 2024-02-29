@@ -187,7 +187,7 @@ const ChatView = ({uid, userName}) =>{
       //push notification
       try{
 
-        const result = await sendNotification(uid,team.teamName,input, 'alarm_message');  
+        const result = await sendNotification(uid,team.teamName,input, 'alarm_message',{url:`com.zzsoft.thehanda://chatDetail/${team.id}`});  
         setIsSending(false)
         setInput("")
       }catch(e){

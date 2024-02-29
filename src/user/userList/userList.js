@@ -81,7 +81,7 @@ const UserList = () => {
         />
       </div>
 
-      <AlarmDialog isDialogOpen={isAlertDialogOpen} setIsDialogOpen={setIsAlertDialogOpen} checkedList={checkedList} />
+      <AlarmDialog isDialogOpen={isAlertDialogOpen} setIsDialogOpen={setIsAlertDialogOpen} checkedList={checkedList} showCodeInput />
     </>
   )
 }

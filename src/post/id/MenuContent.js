@@ -13,6 +13,9 @@ import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+import DifferenceOutlinedIcon from '@mui/icons-material/DifferenceOutlined';
+
 const MenuContent = ({postId, type}) => {
   const router = useRouter()
   const {id} = router.query
@@ -42,6 +45,7 @@ const MenuContent = ({postId, type}) => {
     router.push(`/${id}/result/${type}/${postId}`)
   }
 
+
   const onDeleteClick = async () => {
     if(!ROLE_CHECK.is_over_high_admin(userData))
       alert("High 이상의 권한이 필요합니다.")
@@ -54,6 +58,11 @@ const MenuContent = ({postId, type}) => {
 
   const onOpenClick = () => {
     router.push(`/${id}/post/edit/${type}/${postId}`)
+  }
+
+  const onCodeClick = () => {
+    navigator.clipboard.writeText(postId)
+    alert(`코드가 복사되었습니다.\n알림을 보낼 때 해당 코드를 붙여넣기하여 알림을 보내보세요.`)
   }
 
   return(
@@ -79,6 +88,9 @@ const MenuContent = ({postId, type}) => {
           <MenuItem onClick={onCopyClick} style={{padding: "3px 20px"}}><ContentCopyIcon className={styles.menu_icon}/>복사</MenuItem>
           {type!=="announcements" && 
             <MenuItem onClick={onResultClick} style={{padding: "3px 20px"}}><ListAltIcon className={styles.menu_icon}/>결과보기</MenuItem>
+          }
+          {type!=="announcements" && 
+            <MenuItem onClick={onCodeClick} style={{padding: "3px 20px"}}><DifferenceOutlinedIcon className={styles.menu_icon}/>코드 복사</MenuItem>
           }
 
           {type !== "announcements" && type !== "surveys" && (

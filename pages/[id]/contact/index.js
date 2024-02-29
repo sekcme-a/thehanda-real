@@ -145,9 +145,10 @@ const Contact = () => {
   const onSendClick = async () => {
     const {id, uid } = sortedData[selectedIndex]
     if(confirm("답장을 보내시겠습니까?")){
+      const randomDoc = await db.collection("user").doc().get()
       const batch = db.batch()
       batch.update(db.collection("team_admin").doc(team.id).collection("contact").doc(id), {reply: true, repliedText: repliedText })
-      batch.set(db.collection("user").doc(uid).collection("alarm").doc(),{
+      batch.set(db.collection("user").doc(uid).collection("alarm").doc(randomDoc.id),{
         ...data[selectedIndex], repliedText: repliedText, createdAt: new Date(),read: false,
       })
       batch.commit().then(async()=>{
@@ -160,7 +161,8 @@ const Contact = () => {
         setOpenContent(false)
         db.collection("user").doc(uid).get().then(async(doc) => {
           try {
-            const result = await sendNotification(uid,"문의답장 알림","문의하신 내용에 답장이 도착했습니다.", "Chat", 'alarm_message', {screen:"Main", params: {mode:"alarm"}});
+            // const result = await sendNotification(uid,"문의답장 알림","문의하신 내용에 답장이 도착했습니다.", "Chat", 'alarm_message', {screen:"Main", params: {mode:"alarm"}});
+            const result = await sendNotification(uid,"문의답장 알림","문의하신 내용에 답장이 도착했습니다.", 'alarm_message', {url:`com.zzsoft.thehanda://alarm/${randomDoc.id}`});
             setRepliedText("")
             alert("성공적으로 보냈습니다.")
           } catch (e) {
@@ -173,9 +175,10 @@ const Contact = () => {
   const onResendClick = async () => {
     const {id, uid } = sortedData[selectedIndex]
     if(confirm("답장을 재전송하시겠습니까?")){
+      const randomDoc = await db.collection("user").doc().get()
       const batch = db.batch()
       batch.update(db.collection("team_admin").doc(team.id).collection("contact").doc(id), {reply: true, repliedText: repliedText })
-      batch.set(db.collection("user").doc(uid).collection("alarm").doc(),{
+      batch.set(db.collection("user").doc(uid).collection("alarm").doc(randomDoc.id),{
         ...data[selectedIndex], repliedText: repliedText, createdAt: new Date(),read: false, title: `${data[selectedIndex].title}(재전송)`
       })
       batch.commit().then(async()=>{
@@ -188,7 +191,7 @@ const Contact = () => {
         setOpenContent(false)
         // db.collection("user").doc(uid).get().then(async(doc) => {
           try {
-            const result = await sendNotification(uid,"문의답장 알림","문의하신 내용에 답장이 도착했습니다.", 'alarm_message');
+            const result = await sendNotification(uid,"문의답장 알림","문의하신 내용에 답장이 도착했습니다.", 'alarm_message', {url:`com.zzsoft.thehanda://alarm/${randomDoc.id}`});
             if(result.title==="전송 성공"){
               setRepliedText("")
               alert("성공적으로 보냈습니다.")
