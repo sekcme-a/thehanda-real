@@ -44,7 +44,7 @@ const Contact = () => {
     const fetchData = async () => {
       let query
       console.log(team)
-      if(userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_high_admin`)||userData.roles.includes(`${team.id}_super_admin`)){
+      if(userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`)){
         query = await db.collection("team_admin").doc(team.id).collection("contact").orderBy("createdAt", 'desc').get()
       } else {
         query = await db.collection("team_admin").doc(team.id).collection("contact").where('show', '==', true).orderBy("createdAt", 'desc').get()
@@ -138,7 +138,7 @@ const Contact = () => {
         else
           return item
       }))
-        alert("super, high 등급 관리자에게만 공개됩니다.")
+        alert("super 등급 관리자에게만 공개됩니다.")
     })
   }
   
@@ -246,24 +246,29 @@ const Contact = () => {
               </div>
               <div className={styles.control}>
                 {sortedData[selectedIndex]?.show ? <p>상태: 모두 공개</p> : <p>상태: 비공개</p>}
-                {!sortedData[selectedIndex]?.show ? 
-                  <Tooltip title="모두 공개">
-                    <IconButton onClick={onShowClick}>
-                      <VisibilityOffOutlinedIcon style={{fontSize:"20px", cursor:"pointer"}} />
-                    </IconButton>
-                  </Tooltip>
-                  :
-                  <Tooltip title="비공개">
-                    <IconButton onClick={onHideClick}>
-                      <VisibilityOutlinedIcon style={{fontSize:"20px", cursor:"pointer"}} />
+
+                {userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`) &&
+                  (!sortedData[selectedIndex]?.show ? 
+                    <Tooltip title="모두 공개">
+                      <IconButton onClick={onShowClick}>
+                        <VisibilityOffOutlinedIcon style={{fontSize:"20px", cursor:"pointer"}} />
+                      </IconButton>
+                    </Tooltip>
+                    :
+                    <Tooltip title="비공개">
+                      <IconButton onClick={onHideClick}>
+                        <VisibilityOutlinedIcon style={{fontSize:"20px", cursor:"pointer"}} />
+                      </IconButton>
+                    </Tooltip>
+                  )
+                }
+                {userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`) &&
+                  <Tooltip title="삭제">
+                    <IconButton onClick={onDeleteClick}>
+                      <DeleteOutlineRoundedIcon style={{fontSize:"20px", cursor:"pointer"}} />
                     </IconButton>
                   </Tooltip>
                 }
-                <Tooltip title="삭제">
-                  <IconButton onClick={onDeleteClick}>
-                    <DeleteOutlineRoundedIcon style={{fontSize:"20px", cursor:"pointer"}} />
-                  </IconButton>
-                </Tooltip>
               </div>
               <div className={styles.body_container}>
                 <div className={styles.content}>

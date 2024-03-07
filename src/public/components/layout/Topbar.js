@@ -25,7 +25,10 @@ const titleData = {
   "/[id]/comment/[docId]" : "프로그램 후기 작성",
   "/[id]/schedule/programSchedule" : "프로그램 스케쥴",
   "/[id]/schedule/teamSchedule" : "팀 스케쥴",
-  "/[id]/contact" : "센터문의 관리"
+  "/[id]/contact" : "센터문의 관리",
+  "/[id]/story" : "스토리 관리",
+  "/[id]/story/[docId]" : "스토리 관리",
+
 }
 
 const Topbar = () => {

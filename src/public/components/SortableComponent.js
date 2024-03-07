@@ -2,17 +2,18 @@ import React, {useState, useEffect} from 'react';
 import {render} from 'react-dom';
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
+import { Grid } from '@mui/material';
 
 const SortableItem = SortableElement(({index, value}) => <li key={index}>{value}</li>);
 
 const SortableList = SortableContainer(({items, ulStyle}) => {
-  return (
-    <ul style={ulStyle}>
-      {items.map((value, index) => (
-        <SortableItem key={index} index={index} value={value}/>
-      ))}
-    </ul>
-  );
+    return (
+      <ul style={ulStyle}>
+        {items.map((value, index) => (
+          <SortableItem key={index} index={index} value={value}/>
+        ))}
+      </ul>
+    );
 });
 
 
@@ -34,7 +35,7 @@ const SortableComponent = ({items, setItems, components, setComponents, mode, ul
     setItems(arrayMoveImmutable(items, oldIndex, newIndex))
   };
 
-  return <SortableList  items={components} onSortEnd={onSortEnd} axis={mode} ulStyle={ulStyle} pressDelay={pressDelay} />;
+  return <SortableList items={components} onSortEnd={onSortEnd} axis={mode} ulStyle={ulStyle} pressDelay={pressDelay}/>;
 }
 
 export default SortableComponent

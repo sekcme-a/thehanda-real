@@ -45,6 +45,7 @@ import CurrencyRubleIcon from '@mui/icons-material/CurrencyRuble';
 import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 
 const Navbar = () => {
   const router = useRouter()
@@ -220,8 +221,22 @@ const Navbar = () => {
 
 
 
+        <ListItemButton onClick={()=>onClick("story")}>
+          <ListItemIcon>
+            <AutoStoriesOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="스토리 관리" />
+        </ListItemButton>
 
 
+
+
+        <ListItemButton onClick={()=>onClick("chat")}>
+          <ListItemIcon>
+            <ChatOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary="한다챗" />
+        </ListItemButton>
 
 
 
@@ -277,12 +292,6 @@ const Navbar = () => {
 
 
 
-        <ListItemButton onClick={()=>onClick("chat")}>
-          <ListItemIcon>
-            <ChatOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="한다챗" />
-        </ListItemButton>
 
 
         <ListItemButton onClick={()=>onClick("contact")}>

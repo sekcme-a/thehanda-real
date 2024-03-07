@@ -4,8 +4,6 @@ import { useRouter } from "next/router"
 import { firestore as db } from "firebase/firebase"
 
 import styles from "./Header.module.css"
-import FUNCTION from "./HeaderFunction"
-import useData from "context/data"
 
 
 import { FormControl, InputLabel,Select, MenuItem, TextField } from "@mui/material"
