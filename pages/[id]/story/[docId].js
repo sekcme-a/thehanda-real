@@ -88,14 +88,17 @@ const EditStory = () => {
   const onPublishClick = async () => {
     setIsWorking(true)
     if(confirm("게재하시겠습니까?")){
-      if(await onSaveClick())
-        if(await FUNCTION.publish_story(id, docId)){
+      const res = await onSaveClick()
+      if(res){
+        const res2 =await FUNCTION.publish_story(id, docId)
+        if(res2){
           alert("게재되었습니다.")
           setStoryData(prev=> ({
             ...prev,
             condition: "게재중"
           }))
         }
+      }
     }
 
     setIsWorking(false)
