@@ -8,7 +8,7 @@ const ThumbnailCard = ({data}) => {
   const {id} = router.query
 
   return(
-    <Card sx={{p:"10px 5px",  position: "relative", height: "200px", cursor:"pointer"}}
+    <Card sx={{p:"10px 5px",  position: "relative", height: "215px", cursor:"pointer"}}
       onClick={()=>router.push(`/${id}/story/${data.id}`)}
     >
 
@@ -37,6 +37,7 @@ const ThumbnailCard = ({data}) => {
       <CardActions sx={{p: "5px 5px"}}>
         <div className={styles.bottom_container}>
           <h2>마지막 변경일: {data.savedAt.toDate().toLocaleString()}</h2>
+          {data.publishedAt && <h2 style={{marginTop:'3px'}}>게재일: {data.publishedAt.toDate().toLocaleString()}</h2>}
         </div>
       </CardActions>
     </Card>

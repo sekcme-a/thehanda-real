@@ -80,7 +80,8 @@ export const FUNCTION = {
 
   publish_story: async (teamId, docId) => {
     await db.collection("team").doc(teamId).collection("story").doc(docId).update({
-      condition:"게재중"
+      condition:"게재중",
+      publishedAt: new Date(),
     })
     return true
   },

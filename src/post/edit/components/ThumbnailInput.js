@@ -29,7 +29,7 @@ const ThumbnailInput = ({postValues, setPostValues}) =>{
           path={`contents/${id}/${postId}/thumbnail/${Date.now()}`}
           imgURL={postValues.thumbnailURL}
           setLoading={setIsImgURLLoading}
-          recommandSize="1080*756"
+          recommandSize="1850*1300"
         />
         
         {isImgURLLoading ? 
