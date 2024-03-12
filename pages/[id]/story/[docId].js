@@ -100,9 +100,11 @@ const EditStory = () => {
         }
       }
     }
-
     setIsWorking(false)
   }
+
+
+
 
   const onUnpublishClick = async () => {
     setIsWorking(true)
@@ -117,6 +119,7 @@ const EditStory = () => {
     }
     setIsWorking(false)
   }
+
 
 
   const onDeleteClick = async () => {
@@ -138,6 +141,7 @@ const EditStory = () => {
       <div className={styles.content_container} >
         <h3 style={{marginBottom:"10px", marginTop:"20px"}}>이미지 업로드</h3>
         <ImageDropZone style={{width:'100%'}} {...{files, setFiles, deletedFiles, setDeletedFiles}}/>
+        <p style={{marginTop:"10px", fontSize:"12px"}}>*권장 사이즈 1850*1300</p>
         <p style={{marginTop:"10px", fontSize:"12px"}}>*이미지를 클릭하시면 전체화면으로 보실 수 있습니다.</p>
         <p style={{marginTop:"5px", fontSize:"12px"}}>*이미지를 잠시동안 누른 후 드래그하시면 이미지의 위치를 변경하실 수 있습니다.</p>
 

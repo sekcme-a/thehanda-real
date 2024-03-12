@@ -16,8 +16,56 @@ const CheckBoxInput = ({mode, postValues, setPostValues}) => {
 
   //handle Type
   const onTypeChange = (checked, target) => {
-    if(checked)
-    setPostValues(prevValues => ({...prevValues, type: target}))
+    if(checked){
+      const familyFormIndex = postValues?.formData.findIndex(obj => obj.type === 'family')
+      if(target==="common"){
+        //일반 프로그램인데 "가족구성원 선택" 폼이 있다면 삭제
+        if( familyFormIndex !== -1){
+          const updatedFormData = [...postValues.formData.slice(0, familyFormIndex), ...postValues.formData.slice(familyFormIndex + 1)];
+          setPostValues(prevValues => (
+            {
+              ...prevValues,
+              type: target,
+              formData: updatedFormData
+            }
+          ))
+        }else {
+          setPostValues(prevValues => (
+            {
+              ...prevValues,
+              type: target,
+            }
+            ))
+        }
+      } else {
+        //자녀 프로그램인데 "가족구성원 선택" 폼이 없다면 추가
+        if( familyFormIndex === -1){
+          setPostValues(prevValues => (
+            {
+              ...prevValues,
+              type: target,
+              formData: [
+                {
+                  id:"family",
+                  isRequired: true,
+                  title: "가족구성원 선택",
+                  subtitle: "신청할 가족구성원을 선택해주세요.",
+                  type: "family",
+                },
+                ...postValues.formData
+              ]
+            }
+          ))
+        }else {
+          setPostValues(prevValues => (
+            {
+              ...prevValues,
+              type: target,
+            }
+          ))
+        }
+      }
+    }
     else if(target==="common"){
       alert("타입은 없을 수 없습니다.")
     } else

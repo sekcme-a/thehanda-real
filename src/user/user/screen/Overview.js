@@ -39,6 +39,13 @@ const UserViewOverview = ({data, setData}) => {
     <div>
       {/* <p style={{fontSize:"15px", marginTop:"7px", marginBottom:"20px"}}>{`해당 유저의 프로필 정보를 수정하실 수 있습니다. (해당 유저의 어플에도 동일 적용됩니다)`}</p> */}
       <Grid container rowSpacing={2} columnSpacing={1}>
+        <Grid tiem xs={12}>
+          <h1 style={{margin:"5px 0 10px 10px"}}>
+            프로그램 알림: <strong style={{color: value?.alarm_program ? "green" : "red"}}>{value?.alarm_program ? "ON" : "OFF"} </strong>
+            | 채팅 알림: <strong style={{color: value?.alarm_message ? "green" : "red"}}>{value?.alarm_message ? "ON" : "OFF"} </strong>
+            | 이벤트 알림:  <strong style={{color: value?.alarm_event ? "green" : "red"}}>{value?.alarm_event ? "ON" : "OFF"} </strong>
+          </h1>
+        </Grid>
         <Grid item xs={12} md={6} >
           <TextField
             fullWidth

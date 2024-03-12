@@ -32,6 +32,8 @@ const Contact = () => {
   const [selectedIndex, setSelectedIndex] = useState(null)
   const [repliedText, setRepliedText] = useState("")
 
+  const [hasUserReadTheMessage, setHasUserReadTheMessage] = useState(null)
+
   useEffect(()=>{
     console.log(selectedIndex)
     if(openContent)
@@ -97,9 +99,20 @@ const Contact = () => {
     setOpenContent(false)
   }
 
-  const onItemClick = (index) => {
+  const onItemClick = async (index) => {
+    setHasUserReadTheMessage(null)
     setOpenContent(true)
     setSelectedIndex(index)
+
+    //해당 유저가 문의를 읽었는지 유무
+    const alarmSnapshot = await db.collection("user").doc(sortedData[index].uid).collection("alarm").where("id","==",sortedData[index].id).orderBy("createdAt",'desc').limit(1).get()
+    if(!alarmSnapshot.empty){
+      const alarmDoc = alarmSnapshot.docs[0]
+      if(alarmDoc.data().read) setHasUserReadTheMessage(true)
+      else setHasUserReadTheMessage(false)
+    }
+
+    console.log(sortedData[index])
   }
 
   const onDeleteClick = () => {
@@ -291,7 +304,7 @@ const Contact = () => {
                 
                 {sortedData[selectedIndex]?.reply ? 
                   <div className={styles.content} style={{marginTop: "25px"}}>
-                    답장 전송됨
+                    답장 전송됨 | {hasUserReadTheMessage ? `사용자가 읽음` : '사용자가 아직 읽지않음'}
                     <TextField multiline fullWidth maxRows={12} style={{marginTop:"15px", marginBottom:"10px"}} 
                       value={repliedText}
                       onChange= {(e)=>setRepliedText(e.target.value)}

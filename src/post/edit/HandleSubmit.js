@@ -38,22 +38,22 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
     }
 
     //자녀 프로그램이고 family타입이 없다면 , postValues.formData 맨앞에 family 타입 추가
-    let newPostValues = postValues
-    if(newPostValues.type==="children" && !newPostValues?.formData.find(obj => obj.type === 'family')){
-      newPostValues={
-        ...newPostValues,
-        formData: [
-          {
-            id:"family",
-            isRequired: true,
-            title: "가족구성원 선택",
-            subtitle: "신청할 가족구성원을 선택해주세요.",
-            type: "family",
-          },
-          ...newPostValues.formData
-        ]
-      }
-    }
+    // let newPostValues = postValues
+    // if(newPostValues.type==="children" && !newPostValues?.formData.find(obj => obj.type === 'family')){
+    //   newPostValues={
+    //     ...newPostValues,
+    //     formData: [
+    //       {
+    //         id:"family",
+    //         isRequired: true,
+    //         title: "가족구성원 선택",
+    //         subtitle: "신청할 가족구성원을 선택해주세요.",
+    //         type: "family",
+    //       },
+    //       ...newPostValues.formData
+    //     ]
+    //   }
+    // }
 
     setIsSubmitting(true)
     const imagesUrlList = await uploadFilesToStorage(selectedImageList, `contents/${id}/${postId}/images`)
@@ -61,7 +61,7 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
     const batch = db.batch()
 
     batch.set(db.collection("team").doc(id).collection(type).doc(postId),{
-      ...newPostValues,
+      ...postValues,
       history: [{type:"create", date: new Date(), text:`"${userData.name}" 님에 의해 저장됨.`},...postValues.history],
       savedAt: new Date(),
       lastSaved: userData.name,
