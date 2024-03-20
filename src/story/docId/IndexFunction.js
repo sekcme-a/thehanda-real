@@ -60,7 +60,7 @@ export const FUNCTION = {
   upload_story_to_firestore: async (data, teamId, docId) => {
     await db.collection("team").doc(teamId).collection("story").doc(docId).set({
       ...data,
-      savedAt: new Date()
+      savedAt: new Date(),
     })
   },
 

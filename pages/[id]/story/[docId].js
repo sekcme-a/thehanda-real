@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 
 import ImageDropZone from "src/public/components/ImageDropZone/ImageDropZone"
 import MuiTextField from "src/public/mui/MuiTextField"
-import { CircularProgress, TextField } from "@mui/material"
+import { CircularProgress, Switch, TextField } from "@mui/material"
 import MuiButton from "src/public/mui/MuiButton"
 import useUserData from "context/userData"
 import { PERMISSION } from "src/public/hooks/checkPermission"
@@ -23,6 +23,8 @@ const EditStory = () => {
 
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
+  const [allowComment, setAllowComment] = useState(true)
+  const [showLikeCount, setShowLikeCount] = useState(true)
 
   const [storyData, setStoryData] = useState(null)
 
@@ -30,6 +32,8 @@ const EditStory = () => {
   const [isWorking, setIsWorking] = useState(false)
 
   const [isNewStory, setIsNewStory] = useState(true)
+
+
 
 
   useEffect(()=> {
@@ -43,6 +47,8 @@ const EditStory = () => {
         setTitle(data.title)
         setContent(data.content)
         setFiles(data.imgs)
+        setAllowComment(data.allowComment)
+        setShowLikeCount(data.showLikeCount)
         setIsNewStory(false)
       }
       setIsLoading(false)
@@ -65,6 +71,8 @@ const EditStory = () => {
           imgs: uploadResultFiles,
           title: title,
           content: content,
+          allowComment: allowComment,
+          showLikeCount: showLikeCount,
         }, id, docId)
 
         await FUNCTION.delete_deleted_images_from_storage(deletedFiles)
@@ -159,6 +167,19 @@ const EditStory = () => {
             outlined
             multiline
             maxRows={15}
+          />
+        </div>
+
+        <div style={{display:"flex", alignItems:"center", marginTop: "18px"}} >
+          <p>좋아요 수 표시 {!showLikeCount && "안함"}</p>
+          <Switch
+            checked={showLikeCount}
+            onChange={(e) => setShowLikeCount(e.target.checked)}
+          />
+          <p style={{marginLeft:"30px"}}>댓글 허용 {!allowComment && "안함"}</p>
+          <Switch
+            checked={allowComment}
+            onChange={(e) => setAllowComment(e.target.checked)}
           />
         </div>
 

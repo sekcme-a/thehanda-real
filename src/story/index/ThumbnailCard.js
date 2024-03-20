@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardMedia, CardActions, IconButton, MenuItem, Menu } from "@mui/material"
 import { useRouter } from "next/router"
 import styles from "./ThumbnailCard.module.css"
+import MenuContent from "./MenuContent"
 
 const ThumbnailCard = ({data}) => {
   const router = useRouter()
@@ -9,10 +10,9 @@ const ThumbnailCard = ({data}) => {
 
   return(
     <Card sx={{p:"10px 5px",  position: "relative", height: "215px", cursor:"pointer"}}
-      onClick={()=>router.push(`/${id}/story/${data.id}`)}
     >
 
-      {/* <MenuContent postId={data.id} type={type}/> */}
+      <MenuContent storyId={data.id}/>
 
 
         <CardMedia

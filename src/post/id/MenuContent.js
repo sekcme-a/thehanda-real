@@ -15,12 +15,18 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import DifferenceOutlinedIcon from '@mui/icons-material/DifferenceOutlined';
+import ShareIcon from '@mui/icons-material/Share';
+
+
+import QRShareDialog from "src/public/components/QRShareDialog";
 
 const MenuContent = ({postId, type}) => {
   const router = useRouter()
   const {id} = router.query
   const {userData} = useUserData()
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [isOpenShareDialog, setIsOpenShareDialog] = useState(false)
 
   const open = Boolean(anchorEl);
   const handleClick = (event, index) => {
@@ -103,8 +109,15 @@ const MenuContent = ({postId, type}) => {
                 <ListAltIcon className={styles.menu_icon} />후기 결과보기
               </MenuItem>
           )}
+          {type !== "announcements"  && (
+              <MenuItem onClick={() => setIsOpenShareDialog(true) } style={{ padding: "3px 20px" }}>
+                <ShareIcon className={styles.menu_icon} />공유하기
+              </MenuItem>
+          )}
 
           <MenuItem onClick={onDeleteClick} style={{padding: "3px 20px", color:"rgb(172, 1, 1)"}}><DeleteOutlineIcon className={styles.menu_icon}/>삭제</MenuItem>
+
+          <QRShareDialog isOpenDialog={isOpenShareDialog} setIsOpenDialog={setIsOpenShareDialog} url={`https://thehanda-share.netlify.com/post/${id}/${postId}`} />
         </Menu>
       </div>
     </>
