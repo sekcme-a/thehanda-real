@@ -56,7 +56,7 @@ const renderStats = ({data}) => {
 const CrmTransactions = ({data}) => {
   const {team} = useData()
   return (
-    <Card>
+    <Card style={{height:"100%"}}>
       <CardHeader
         title='프로그램'
         // action={
@@ -66,7 +66,7 @@ const CrmTransactions = ({data}) => {
         //   />
         // }
         subheader={
-          <Typography variant='body2'>
+          <Typography variant='body1'>
             {team.teamName}의 프로그램 현황입니다.
           </Typography>
         }
@@ -88,7 +88,7 @@ const CrmTransactions = ({data}) => {
                 {/* <Icon icon={item.icon} fontSize='1.75rem' /> */}
               {/* </CustomAvatar> */}
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='caption' style={{fontSize:"12px"}}>{item.title}</Typography>
+                <Typography variant='caption' style={{fontSize:"14px"}}>{item.title}</Typography>
                 <Typography variant='h6'>{item.stats}</Typography>
               </Box>
             </Box>

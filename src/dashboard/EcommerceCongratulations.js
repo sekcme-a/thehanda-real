@@ -42,7 +42,7 @@ const EcommerceCongratulations = ({remainPoints}) => {
       <Card sx={{ position: 'relative', overflow: 'visible', mt: { xs: 0, sm: 7.5, md: 0 } }}>
         <CardContent sx={{ p: theme => `${theme.spacing(4.25, 4.5, 2.25, 4.5)} !important` }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <Typography variant='h5' sx={{ mb: 1.5 }}>
                 한다 Point
               </Typography>
@@ -73,9 +73,9 @@ const EcommerceCongratulations = ({remainPoints}) => {
               <Typography variant='body2'>포인트를 통해 사용자들에게 알림을 보내실 수 있습니다.</Typography>
               <Typography variant='body2'>해당 알림은 알림을 꺼놓은 상대에게는 보내지지 않으며, 포인트가 차감되지 않습니다.</Typography>
             </Grid>
-            <StyledGrid item xs={12} sm={6}>
+            {/* <StyledGrid item xs={12} sm={6}>
               <Img alt='Congratulations John' src='/images/illustration-john-2.png' />
-            </StyledGrid>
+            </StyledGrid> */}
           </Grid>
         </CardContent>
       </Card>

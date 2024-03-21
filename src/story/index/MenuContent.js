@@ -18,6 +18,7 @@ import ShareIcon from '@mui/icons-material/Share';
 
 
 import QRShareDialog from "src/public/components/QRShareDialog";
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 
 import { firestore as db } from "firebase/firebase";
 import { FUNCTION } from "../docId/IndexFunction";

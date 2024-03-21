@@ -55,7 +55,7 @@ const MenuContent = ({postId, type}) => {
   const onDeleteClick = async () => {
     if(!ROLE_CHECK.is_over_high_admin(userData))
       alert("High 이상의 권한이 필요합니다.")
-    else if(confirm("해당 게시물을 삭제하시겠습니까?\n일방적인 게재 취소는 사용자들에게 혼란을 줄 수 있습니다.")){
+    else if(confirm("해당 게시물을 삭제하시겠습니까?")){
       await FUNCTION.deletePost(id, type, postId)
       alert("성공적으로 삭제되었습니다.")
       router.reload()

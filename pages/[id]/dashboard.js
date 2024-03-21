@@ -102,6 +102,14 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={12} md={6}>
+        </Grid>
+
+        
+        <Grid item xs={12} md={6} sx={{ order: 0, alignSelf: 'flex-end' }}>
+          <EcommerceCongratulations remainPoints={remainPoints}/>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
           <CrmTransactions 
             data={[
               {title:"게재중인 메인프로그램 수", stats: `총 ${programCount.isMain}개`},
@@ -109,11 +117,6 @@ const Dashboard = () => {
               {title:'전체 프로그램 수', stats: `총 ${programCount.all}개`}
             ]}
           />
-        </Grid>
-
-        
-        <Grid item xs={12} md={12} sx={{ order: 0, alignSelf: 'flex-end' }}>
-          <EcommerceCongratulations remainPoints={remainPoints}/>
         </Grid>
 
         {/* <Grid item xs={12} sm={6} md={2} sx={{ order: 0 }}>
