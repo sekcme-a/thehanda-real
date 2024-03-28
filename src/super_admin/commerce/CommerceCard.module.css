@@ -1,0 +1,17 @@
+.main{
+  padding: 80px 0;
+  border-bottom: 2px solid black;
+}
+
+.main h1{
+  font-size:  13px;
+}
+.main h1 strong{
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.condition{
+  font-size: 16px !important;
+  margin-left: 5px;
+}

@@ -15,6 +15,7 @@ import QuickLinkInput from "./components/QuickLinkInput"
 import { firestore as db } from "firebase/firebase"
 import { useRouter } from "next/router"
 import { TruckAlertOutline } from "mdi-material-ui"
+import KeywordInput from "./components/KeywordInput"
 
 const EditPost = ({postValues, setPostValues, selectedImageList, setSelectedImageList}) => {
   const router = useRouter()
@@ -67,6 +68,10 @@ const EditPost = ({postValues, setPostValues, selectedImageList, setSelectedImag
         {...{postValues, setPostValues}} />
       <TextInput title="기간문구" placeholder="기간문구를 입력하세요." id="dateText"
         {...{postValues, setPostValues}} />
+
+      <KeywordInput title="키워드" placeholder="검색 키워드를 입력하세요.(쉼표로 구분) 예)다문,다문화,한국,공고,...." id="keyword" autoCreateFor={postValues.title} multiline
+        {...{postValues, setPostValues}} />
+      <p style={{fontSize:"13px"}}>*어플/관리자 홈페이지에서 유저가 해당 단어로 검색했을 경우 노출됩니다.</p>
 
 
       <div className={styles.border} />

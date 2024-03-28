@@ -9,7 +9,7 @@ import styles from "./Header.module.css"
 import { FormControl, InputLabel,Select, MenuItem, TextField } from "@mui/material"
 import MuiTextField from "src/public/mui/MuiTextField"
 import MuiButton from "src/public/mui/MuiButton"
-const Header = ({searchInput, setSearchInput, sections, selectedSection, setSelectedSection, onSearchClick}) => {
+const Header = ({searchInput, setSearchInput, sections, selectedSection, setSelectedSection, onSearchClick, filterType, setFilterType}) => {
   const router = useRouter()
   const {id, type} = router.query
 
@@ -42,6 +42,33 @@ const Header = ({searchInput, setSearchInput, sections, selectedSection, setSele
   }
 
 
+  const filterSelect = [
+    {
+      name:"전체",
+      id:'전체',
+    },
+    {
+      name:"게재중 프로그램",
+      id:"게재중",
+    },
+    {
+      name:"미게재 프로그램",
+      id:"미게재",
+    },
+    {
+      name:"예약접수 프로그램",
+      id:"예약접수",
+    },
+    {
+      name:"접수중(미마감) 프로그램",
+      id:"접수중",
+    },
+    {
+      name:"마감된 프로그램",
+      id:"마감",
+    }
+  ]
+
 
   return(
     <>
@@ -68,11 +95,28 @@ const Header = ({searchInput, setSearchInput, sections, selectedSection, setSele
           </Select>
         </FormControl>
 
+        <FormControl sx={{width:"200px", marginRight:"25px"}} size="small">
+          <InputLabel id="simple-select-label">필터링</InputLabel>
+          <Select
+            value={filterType}
+            label="유형 선택"
+            onChange={(e)=>setFilterType(e.target.value)}
+          >
+            {
+              filterSelect.map((item, index) => {
+                return(
+                  <MenuItem value={item.id} key={index} name={item.name}>{item.name}</MenuItem>
+                )
+              })
+            }
+          </Select>
+        </FormControl>
+
         <MuiTextField
           template="search"
           outlined
-          label=""
-          placeholder="검색"
+          label="키워드 검색"
+          placeholder="키워드를 통해 검색됩니다."
           value={searchInput}
           setValue={setSearchInput}
           sx={{mr:"10px"}}

@@ -50,7 +50,10 @@ const ThumbnailCard = ({data, type}) => {
           <p style={conditionText==="승인거절" ? {color:"red"}: 
             conditionText==="게재중" ? {color: "blue"} : 
             {color:"#333"}
-          }>{conditionText}</p>
+          }>{conditionText}
+          {data.hasDeadline && new Date(data.endAt.seconds*1000) < new Date() && <strong style={{color:"red"}}> 접수마감</strong>}
+          {data.hasReserve && new Date(data.startAt.seconds*1000) > new Date() && <strong style={{color:"green"}}> 예약접수</strong>}
+          </p>
           <h1>{data.title}</h1>
         </div>
       </CardContent>

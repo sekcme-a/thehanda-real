@@ -13,11 +13,20 @@ import GivePoint from "src/super_admin/point/GivePoint"
 import Coupon from "src/super_admin/point/Coupon"
 import { EditPoint_ForSuperAdmin } from "src/public/hooks/handlePoints"
 import TeamList from "src/super_admin/dialog/TeamList"
+import useUserData from "context/userData"
 
 const Point = () => {
   const router = useRouter()
   const [applicateList, setApplicateList] = useState([])
   const [isTeamListDialogOpen, setIsTeamListDialogOpen] = useState(false)
+  const {userData} = useUserData()
+
+  useEffect(()=> {
+    if(!userData.roles.includes("super_admin")){
+      alert("권한이 없습니다.")
+      router.push("/")
+    }
+  },[])
 
   useEffect(()=> {
     const fetchData = async () => {

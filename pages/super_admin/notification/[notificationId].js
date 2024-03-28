@@ -1,5 +1,6 @@
 
 import { Button, CircularProgress, TextField } from "@mui/material"
+import useUserData from "context/userData"
 import { firestore as db } from "firebase/firebase"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -8,6 +9,14 @@ import { useEffect, useState } from "react"
 const NotificationPost = () => {
   const router = useRouter()
   const {notificationId} = router.query 
+  const {userData} = useUserData()
+
+  useEffect(()=> {
+    if(!userData.roles.includes("super_admin")){
+      alert("권한이 없습니다.")
+      router.push("/")
+    }
+  },[])
 
   const [input, setInput] = useState({
     title: "",

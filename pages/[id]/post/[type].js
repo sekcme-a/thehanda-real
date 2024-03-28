@@ -13,18 +13,21 @@ import { filterObjByValueFromArrayOfObj } from "src/public/function/filter"
 const Post = () => {
   const router = useRouter()
   const {id, type} = router.query
-  const {fetch_program_thumbnailList, programThumbnailList, fetch_survey_thumbnailList, surveyThumbnailList, fetch_announcementList} = useData()
+  const {team, fetch_program_thumbnailList, programThumbnailList, fetch_survey_thumbnailList, surveyThumbnailList, fetch_announcementList} = useData()
   
   const [sections, setSections] = useState([])
   const [selectedSection, setSelectedSection] = useState('all')
 
   const [thumbnails, setThumbnails] = useState([])
+  const [filteredThumbnails, setFilteredThumbnails] = useState([])
 
   const [isLoading, setIsLoading] = useState(true)
 
   //검색결과가 없습니다 표시를 위해.
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [searchInput, setSearchInput] = useState("")
+
+  const [filterType, setFilterType] = useState("전체")
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -75,23 +78,63 @@ const Post = () => {
       }
     },[searchInput])
 
+
+    useEffect(()=> {
+      if(filterType==="전체"){
+        setFilteredThumbnails(thumbnails)
+      } else if(filterType==="게재중"){
+        const list = thumbnails.map(item => {
+          if(item.condition === "confirm") return item
+        }).filter(Boolean)
+        setFilteredThumbnails([...list])
+      } else if(filterType==="미게재"){
+        const list = thumbnails.map(item => {
+          if(item.condition !=="confirm") return item
+        }).filter(Boolean)
+        setFilteredThumbnails([...list])
+      } else if (filterType==="예약접수"){
+        const list = thumbnails.map(item => {
+          if(item.hasReserve && new Date(item.startAt.seconds*1000) > new Date()) return item
+        }).filter(Boolean)
+        setFilteredThumbnails([...list])
+      } else if(filterType ==="접수중"){
+        const list = thumbnails.map(item => {
+          if(item.condition==="confirm")
+            if(!item.hasReserve || new Date(item.startAt.seconds*1000) < new Date())
+              if(!item.hasDeadline || new Date(item.endAt.seconds*1000) > new Date())
+                return item
+        }).filter(Boolean)
+        setFilteredThumbnails([...list])
+      } else if (filterType === "마감"){
+        const list = thumbnails.map(item => {
+          if(item.condition === "confirm"){
+            if(item.hasDeadline && new Date(item.endAt.seconds*1000) < new Date()) return item
+          } 
+        }).filter(Boolean)
+        setFilteredThumbnails([...list])
+      }
+    },[filterType, thumbnails])
+
+
+
   const onSearchClick = async (input) => {
     if (input==="") {
-      setIsSearchMode(false)
+
       await fetchDataByType()
+      setIsSearchMode(false)
     }
     else {
       setIsSearchMode(true)
-      const filteredList = filterObjByValueFromArrayOfObj(thumbnails, input)
-      setThumbnails(filteredList)
-      console.log(filteredList)
+      const query = await db.collection("team").doc(team.id).collection(`programs_thumbnail`).where("keyword", "array-contains", input).orderBy("savedAt", "desc").get()
+      const list = query.docs.map(doc => ({...doc.data(), id: doc.id}))
+      setThumbnails(list)
     }
   }
 
   
   return(
     <>
-      <Header {...{searchInput, setSearchInput, sections, selectedSection, setSelectedSection, type, onSearchClick}} />
+      <Header {...{searchInput, setSearchInput, sections, selectedSection, setSelectedSection, type, onSearchClick, filterType, setFilterType}} />
       {isLoading && <CircularProgress />}
       {!isLoading && thumbnails?.length===0 && 
         isSearchMode ? 
@@ -102,13 +145,15 @@ const Post = () => {
       }
       <Grid container sx={{mt:"20px"}} spacing={1}>
         {
-          thumbnails?.map((item, index) => {
-            if(selectedSection==="all")
-              return(
-                <Grid item key={index} xs={3}>
-                  <ThumbnailCard data={item} type={type}/>
-                </Grid>
-              )
+          filteredThumbnails?.map((item, index) => {
+            if(selectedSection==="all"){
+                return(
+                  <Grid item key={index} xs={3}>
+                    <ThumbnailCard data={item} type={type}/>
+                  </Grid>
+                )
+              
+            }
             else if(item.selectedSections.some(item=>item.id === selectedSection))
               return(
                 <Grid item key={index} xs={3}>

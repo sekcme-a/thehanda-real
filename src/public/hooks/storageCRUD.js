@@ -1,8 +1,12 @@
 import { storage } from "firebase/firebase";
 import { v4 as uuidv4 } from 'uuid';
+import { IMAGEHANDLE } from "./compressImageHandle";
 
 //모든 업로드 파일이 uuid를 이용해 각각 고유의 id를 이름으로 가지게 한다.
+
+
 export const STORAGE = {
+  //path = "folder/folder"
   upload_file: async (file, path) => {
     try{
       const pathWithUUID = `${path}/${uuidv4()}`
@@ -15,6 +19,54 @@ export const STORAGE = {
       alert("파일을 업로드하는 도중 에러가 발생했습니다. 관리자에게 문의하세요.")
     }
   }, 
+
+
+  //path = uuid 없이: "folder/folder/filename"
+  //uuid 생성: "folder/folder" (folder/folder/uuid 형식으로 저장됨.)
+  //uuid="pathWithUuid" || "pathWithoutUuid"  가독성때매 걍넣음
+  //compression="compress" || "noCompress"   가독성때매 걍넣음
+  //maxMB=number||undefined 이 MB 이상의 파일은 압축
+  upload_file_v2: (file, path, uuid, compression, maxMB) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!(file instanceof File)) {
+                reject("올바른 파일 형식이 아닙니다.");
+                console.error("file 형식이 잘못됬습니다.")
+                return;
+            }
+
+            let newFile = file;
+            if (compression === "compress") {
+                if (!maxMB) {
+                    console.error("압축하려면 maxMB를 작성해주세요.");
+                    return;
+                }
+                // 이미지 사이즈가 maxMB보다 크다면 압축진행
+                else if (!IMAGEHANDLE.checkImageMaxSize(newFile, maxMB)) {
+                    newFile = await IMAGEHANDLE.compressImage(newFile);
+                }
+            }
+
+            let newPath = path;
+            if (uuid === "pathWithUuid") {
+                newPath = `${path}/${uuidv4()}`;
+            }
+
+            const fileRef = storage.ref().child(newPath);
+            await fileRef.put(newFile);
+            const url = await fileRef.getDownloadURL();
+            resolve({ url: url, path: newPath });
+        } catch (error) {
+            console.error("Error uploading files:", error);
+            reject("파일을 업로드하는 도중 에러가 발생했습니다. 관리자에게 문의하세요.");
+        }
+    });
+},
+
+
+
+
+
 
   delete_file: async (path) => {
     try {

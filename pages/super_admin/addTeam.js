@@ -3,9 +3,19 @@ import { firestore as db } from "firebase/firebase"
 import { TextField, Button } from "@mui/material"
 import { Router } from "mdi-material-ui"
 import { useRouter } from "next/router"
+import useUserData from "context/userData"
 
 const AddTeam = () => {
   const router = useRouter()
+  const {userData} = useUserData()
+
+  useEffect(()=> {
+    if(!userData.roles.includes("super_admin")){
+      alert("권한이 없습니다.")
+      router.push("/")
+    }
+  },[])
+
   //*****for inputs
   const [values, setValues] = useState({
     teamId: "",

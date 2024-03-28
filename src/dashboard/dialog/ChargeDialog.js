@@ -96,7 +96,7 @@ const ChargeDialog = ({remainPoints}) => {
         fullWidth
         sx={{mt:"12px"}}
       />
-      <p>입금 계좌: 국민 1234-1234-1234 더한다</p>
+      <p>입금 계좌: 기업 326-147145-04-011 주식회사 더한다</p>
 
       <Button
         margin="dense"

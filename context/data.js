@@ -14,6 +14,16 @@ export function DataProvider(props){
     const [teamList, setTeamList] = useState()
     const [team, setTeam]= useState()
 
+    const [commercial, setCommercial] = useState()
+
+    useEffect(()=> {
+      const fetchCommercial = async () => {
+        const doc = await db.collection("commercial").doc("admin").get()
+        setCommercial(doc.data())
+      }
+
+      fetchCommercial()
+    },[])
   
 
     useEffect(()=>{
@@ -153,6 +163,7 @@ export function DataProvider(props){
     
 
     const value = {
+      commercial, setCommercial,
       teamList, setTeamList, fetch_team_list,
       team, setTeam, fetch_team,
       userList, setUserList,

@@ -32,6 +32,7 @@ const Program = () => {
     title: "",
     subtitle:"",
     dateText: "",
+    keyword: [],
     
     thumbnailURL: "",
 

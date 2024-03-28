@@ -12,6 +12,7 @@ import CardStatsSmall from "src/dashboard/CardStatsSmall";
 
 import PointHistory from "src/dashboard/PointHistory"
 import AdminNotification from "src/public/components/layout/notification/AdminNotification";
+import Commercial from "src/public/components/Commercial";
 
 const Dashboard = () => {
   const {user, userData} = useUserData
@@ -102,7 +103,7 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={12} md={6}>
-          
+          <Commercial id="dashboard_main" style={{maxHeight:"175px"}} imgStyle={{maxHeight:"175px"}}/>
         </Grid>
 
         

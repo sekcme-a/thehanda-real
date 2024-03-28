@@ -18,9 +18,6 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   
-  useEffect(()=> {
-    console.log(postValues)
-  },[postValues])
 
   const onSubmit = async () => {
     
@@ -82,7 +79,8 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
       hasDeadline: postValues.hasDeadline,
       endAt: postValues.endAt,
       condition: postValues.condition,
-      savedAt: new Date()
+      savedAt: new Date(),
+      keyword: postValues.keyword ?? []
     })
 
     await batch.commit()

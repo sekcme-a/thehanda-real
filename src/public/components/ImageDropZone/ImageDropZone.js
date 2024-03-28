@@ -28,12 +28,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 const ImageDropZone = ({
-  files, setFiles, //**필수 []혹은 [{url: 문서url, path: 문서의 storage path}] */
+  /*
+  필수 []혹은 [{url: 문서url, path: 문서의 storage path}]
+  새로 추가되는 이미지들은 [{data: {File}, id: uuid}] 형식으로 추가됨.
+  */
+  files, setFiles, 
   deletedFiles, setDeletedFiles, //** 필수 storage에서 삭제되어야 할 file 배열. path 로 보내짐*/
   style,
   imgStyle={maxWidth:"200px", maxHeight:"200px"},
   recommandSize, //권장 사이즈 문구를 원할때 사용 출력: 권장 사이즈 {recommandSize}
-  maxImg = 9, //최대 이미지 갯수
+  maxImgCount = 9, //최대 이미지 갯수
   //컴포넌트 출력방식을 바꾸고 싶으면 사용 (권장X)
   renderComponent = (file, index,setSelectedDeleteImg) => {
     return(
@@ -73,8 +77,8 @@ const ImageDropZone = ({
       'image/*': ['.png', '.jpg', '.jpeg', '.gif']
     },
     onDrop: acceptedFiles => {
-      if(files.length+acceptedFiles.length >maxImg)
-        alert("최대 9개의 이미지를 업로드하실 수 있습니다.")
+      if(files.length+acceptedFiles.length >maxImgCount)
+        alert(`최대 ${maxImgCount}개의 이미지를 업로드하실 수 있습니다.`)
       else {
         const newFiles = acceptedFiles.map((file) => ({data: Object.assign(file), id: `${uuidv4()}`}))
         setFiles(prev => ([...prev, ...newFiles]))
@@ -90,7 +94,7 @@ const ImageDropZone = ({
       // toast.error('10MB이하의 이미지를 최대 9개 업로드할 수 있습니다.', {
       //   duration: 2000
       // })
-      alert('이미지만 업로드 하실 수 있으며, 10MB이하의 이미지를 최대 9개 업로드할 수 있습니다.')
+      alert(`이미지만 업로드 하실 수 있으며, 10MB이하의 이미지를 최대 ${maxImgCount}개 업로드할 수 있습니다.`)
     },
     noClick: true, //클릭으로 파일 업로드 제외
   })
@@ -140,8 +144,8 @@ const ImageDropZone = ({
   const onImgChange = (e) => {
     if(!e.target.files) alert("이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.")
     const newImgs = Object.values(e.target.files)
-    if(files.length + newImgs.length >  maxImg)
-      alert("최대 9개의 이미지를 업로드하실 수 있습니다.")
+    if(files.length + newImgs.length >  maxImgCount)
+      alert(`최대 ${maxImgCount}개의 이미지를 업로드하실 수 있습니다.`)
     else {
       const addUuidAtFile = newImgs.map(img => ({data: img, id: uuidv4()}))
 
