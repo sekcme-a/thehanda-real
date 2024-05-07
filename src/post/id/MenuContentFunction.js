@@ -1,7 +1,12 @@
 import { firestore as db} from "firebase/firebase"
+import { STORAGE } from "src/public/hooks/storageCRUD"
 
 export const FUNCTION = {
   deletePost: async (id, type, postId) => {
+
+    await STORAGE.delete_folder(`contents/${id}/${postId}/thumbnail`)
+    await STORAGE.delete_folder(`contents/${id}/${postId}/files`)
+    await STORAGE.delete_folder(`contents/${id}/${postId}`)
     const batch = db.batch()
 
     batch.delete(db.collection("team").doc(id).collection(type).doc(postId))

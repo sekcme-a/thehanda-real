@@ -14,9 +14,13 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import { arrayMoveImmutable } from 'array-move';
 import IconMenu from "src/public/mui/IconMenu";
+import { STORAGE } from "src/public/hooks/storageCRUD";
+import useData from "context/data";
 
 
-const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
+const CustomForm = ({formData, setFormData, teamName, contentMode, id, docId}) => {
+
+  const {team} = useData()
   const [openDialog, setOpenDialog] = useState(false)
   const handleCloseDialog = () => { setOpenDialog(false); };
   const onAddClick = () => { setSelectedFormId("") ; setOpenDialog(true) }
@@ -100,10 +104,17 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
 
   },[triggerCopy])
 
-  const onMenuClick = (id,mode) => {
+  const onMenuClick =async  (id,mode, type) => {
     if(mode==="삭제"){
-      if(confirm("해당 폼을 삭제하시겠습니까?")){
-        setTriggerDelete(id)
+      if(type==="file"){
+        if(confirm("해당 폼을 삭제하시겠습니까? 파일 폼을 삭제하실 경우 기존에 업로드되었던 파일들이 모두 삭제됩니다.")){
+          await STORAGE.deleteFolderAndChildFolder(`contents/${team.id}/${docId}/result_files`)
+          // setTriggerDelete(id)
+        }
+      }else {
+        if(confirm("해당 폼을 삭제하시겠습니까?")){
+          setTriggerDelete(id)
+        }
       }
     }
     else if(mode==="복사"){
@@ -140,7 +151,7 @@ const CustomForm = ({formData, setFormData, teamName, contentMode, id}) => {
         {data.type!=='family' &&
           <div className={styles.component_button_container} >
             <IconMenu
-              handleMenuClick={(mode) => onMenuClick(data.id, mode)}
+              handleMenuClick={(mode) => onMenuClick(data.id, mode, data.type)}
             />
           </div>
         }

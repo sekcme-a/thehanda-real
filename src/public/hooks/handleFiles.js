@@ -108,18 +108,22 @@ import { storage } from 'firebase/firebase';
 //     throw error; // Rethrow the error to propagate it to the caller
 //   }
 // };
+export const uploadMultipleFilesAndGetDownloadURLs = async (files, path) => {
+  return await Promise.all(files.map(async (file, index) => {
+    const storageRef = storage.ref().child( `${path}/${file.name}`);
+    await storageRef.put(file)
+    const url = await storageRef.getDownloadURL()
+    return {
+      url: url,
+      path: `${path}/${file.name}`
+    }
+  }));
+};
+
+
+
 export const uploadFilesToStorage = async (fileList, path) => {
   try {
-    //fileList에서 삭제된 파일들만 storage에서 삭제
-    // const deleteFileRef = storage.ref().child(path);
-    // const result = await deleteFileRef.listAll();
-
-    // const deletePromises = result.items.map((item) => {
-    //   if(!fileList.includes(item.getDownloadURL()))
-    //     return item.delete()
-    // });
-    // await Promise.all(deletePromises);
-
     // Upload new files and get their download URLs
     const uploadPromises = fileList.map(async (file, index) => {
       //base64url 이라면 blob로 변환 후 저장

@@ -78,9 +78,16 @@ export const refine_result_data = async (data) => {
           console.log(familyData)
           obj[key] = familyData;
         }
-        // 다중선택 핸들
+        // 다중선택 핸들 & 파일 핸들
         else if (Array.isArray(value)) {
-          obj[key] = value.join(",");
+          console.log()
+          if(typeof value === "object"){
+            //파일 일때
+            const tempList = value.map(file => file.path.split("/")[5])
+            obj[key] = tempList.join(",")
+            obj["result_files"] = value
+          }else 
+            obj[key] = value.join(",");
         } else if (value.main) { // 주소 핸들
           obj[key] = `${value.main} ${value.sub}`;
         } else if (typeof value.sub === "string") { // 주소 핸들

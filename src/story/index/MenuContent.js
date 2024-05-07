@@ -51,6 +51,12 @@ const MenuContent = ({storyId}) => {
     }
   }
 
+  const onCodeClick = () => {
+    navigator.clipboard.writeText(storyId)
+    alert(`코드가 복사되었습니다.\n알림을 보낼 때 해당 코드를 붙여넣기하여 알림을 보내보세요.`)
+  }
+
+
 
   return(
     <>
@@ -76,6 +82,8 @@ const MenuContent = ({storyId}) => {
           <MenuItem onClick={() => setIsOpenShareDialog(true) } style={{ padding: "3px 20px" }}>
             <ShareIcon className={styles.menu_icon} />공유하기
           </MenuItem>
+
+          <MenuItem onClick={onCodeClick} style={{padding: "3px 20px"}}><DifferenceOutlinedIcon className={styles.menu_icon}/>코드 복사</MenuItem>
 
           <MenuItem onClick={onDeleteClick} style={{padding: "3px 20px", color:"rgb(172, 1, 1)"}}><DeleteOutlineIcon className={styles.menu_icon}/>삭제</MenuItem>
 

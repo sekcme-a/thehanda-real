@@ -39,7 +39,7 @@ const ImageDropZone = ({
   recommandSize, //권장 사이즈 문구를 원할때 사용 출력: 권장 사이즈 {recommandSize}
   maxImgCount = 9, //최대 이미지 갯수
   //컴포넌트 출력방식을 바꾸고 싶으면 사용 (권장X)
-  renderComponent = (file, index,setSelectedDeleteImg) => {
+  renderComponent = (file, index, setSelectedDeleteImg) => {
     return(
       <div key={index} style={{margin:"10px", position:"relative"}}>
         <div style={{position:"absolute", top:"5px", right:"5px", color:"red", cursor:"pointer", fontWeight:"bold"}}

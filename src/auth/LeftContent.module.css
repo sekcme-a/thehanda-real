@@ -1,12 +1,12 @@
 .logo_container{
-  margin: 30px 0 30px 50px;
+  margin: 0 0 0 30px;
   display: flex;
   align-items: center;
 }
 .logo_image{
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 130px;
+  height: 130px;
 }
 .logo_container h1{
   margin-left: 10px;

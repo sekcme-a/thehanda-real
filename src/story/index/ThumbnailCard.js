@@ -23,7 +23,7 @@ const ThumbnailCard = ({data}) => {
         />
 
       <CardContent sx={{p: "5px 5px"}}>
-        <div className={styles.content_container}>
+        <div className={styles.content_container} onClick={()=>router.push(`/${id}/story/${data.id}`)}>
           
           <p style={
             data.condition==="게재중" ? {color: "blue"} : {color:"#333"}
@@ -35,7 +35,7 @@ const ThumbnailCard = ({data}) => {
         </div>
       </CardContent>
       <CardActions sx={{p: "5px 5px"}}>
-        <div className={styles.bottom_container}>
+        <div className={styles.bottom_container} onClick={()=>router.push(`/${id}/story/${data.id}`)}>
           <h2>마지막 변경일: {data.savedAt.toDate().toLocaleString()}</h2>
           {data.publishedAt && <h2 style={{marginTop:'3px'}}>게재일: {data.publishedAt.toDate().toLocaleString()}</h2>}
         </div>

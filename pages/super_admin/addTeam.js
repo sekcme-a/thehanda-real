@@ -31,6 +31,11 @@ const AddTeam = () => {
   //for inputs*****
 
   const onButtonClick = async () => {
+
+    if(values.teamId.includes("/")||values.teamId.includes("_")|| values.teamId.includes("-")){
+      alert("팀아이디에 특수기호는 빼주세요.")
+      return
+    }
     const is_team_exists = async() => {
       const doc = await db.collection("team").doc(values.teamId).get()
       return doc.exists

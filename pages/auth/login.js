@@ -22,8 +22,8 @@ const Login = () => {
         </Grid>
         <Grid item xs={12} sm={3.5} md={3.5}>
           <div className={styles.login_container}>
-            <h2>Welcome to 2Z Soft!</h2>
-            <h3>로그인해서 홈페이지를 관리하세요.</h3>
+            <h2>Welcome to Thehanda!</h2>
+            <h3>로그인해서 어플을 관리하세요.</h3>
             <IdAndPassword style={{marginTop:"40px"}}/>
           </div>
         </Grid>

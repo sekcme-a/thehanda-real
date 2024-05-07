@@ -19,6 +19,7 @@ import Checkbox from '@mui/material/Checkbox';
 import SortableComponent from "src/public/components/SortableComponent"
 import { Coffee } from "mdi-material-ui"
 import { arrayMoveImmutable } from "array-move"
+import FileDropZone from "src/public/components/FileDropZone/FileDropZone"
 
 
 
@@ -47,7 +48,12 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
   const [items, setItems] = useState([])
   const [components, setComponents] = useState([])
   const [triggerDelete, setTriggerDelete] = useState("")
-
+  
+  //for filesDropZone
+  const [files, setFiles] = useState([])
+  const [deletedFiles, setDeletedFiles] = useState([])
+  const MAX_FILE_SIZE = 20 //mb
+  const MAX_FILE_COUNT = 9
 
   useEffect(()=> {
     if(id && id!==""){
@@ -60,6 +66,8 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
         setTitleValue(prev => ({...prev, value: foundObj.title}))
         setSubtitleValue(prev => ({...prev, value: foundObj.subtitle}))
         setItems(prev => ([...prev, ...foundObj.items]))
+        if(foundObj.files)
+          setFiles(foundObj.files)
         
         const tempComponentData = foundObj.items.map((item) => {
           return renderComponent(item)
@@ -83,7 +91,7 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
 
 
   const handleChange = event => {
-    setType(event.target.value)
+    
     if (event.target.value === "text_area") {
       setHelperText("원하는 문구를 추가할 수 있습니다.")
       setTypeText("문구 추가")
@@ -144,11 +152,16 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
       setTypeText("이미지")
     }
     else if (event.target.value === "file") {
+      if(formData.some(obj => Object.is(obj.type, "file"))){
+        alert(`'파일' 형식은 한 프로그램 당 1개만 존재할 수 있습니다.`)
+        return
+      }
       setItems([])
       setComponents([])
-      setHelperText("20MB이하의 파일을 첨부할 수 있습니다.")
+      setHelperText("20MB이하의 파일을 최대 9개 첨부할 수 있습니다.")
       setTypeText("파일")
     }
+    setType(event.target.value)
   }
 
   const onItemDeleteClick = (data) => {
@@ -225,14 +238,27 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
             title: titleValue.value,
             subtitle: subtitleValue.value,
             items: items,
-            isRequired: isRequired
+            isRequired: isRequired,
+            ...(files && { files: files }),
+            ...(deletedFiles?.length>0 && { deletedFiles: deletedFiles })
           }
         )
         handleCloseDialog()
       }else {
         try {
           const randomId = await db.collection("user").doc().id
-          addFormData({id:randomId, type: type, typeText: typeText, title: titleValue.value, subtitle: subtitleValue.value, items: items, isRequired: isRequired,})
+          addFormData(
+            {
+              id:randomId, 
+              type: type, 
+              typeText: typeText, 
+              title: titleValue.value, 
+              subtitle: subtitleValue.value, 
+              items: items, 
+              isRequired: isRequired,
+              ...(files && { files: files }),
+              ...(deletedFiles?.length>0 && { deletedFiles: deletedFiles })
+            })
           handleCloseDialog()
         } catch (e) {
           alert(e)
@@ -281,6 +307,7 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
               {/* <MenuItem value="date_time">날짜/시간</MenuItem> */}
               <MenuItem value="phone_number">전화번호</MenuItem>
               <MenuItem value="address">주소</MenuItem>
+              <MenuItem value="file">파일</MenuItem>
               {/* <MenuItem value="image">이미지</MenuItem>
               <MenuItem value="file">파일</MenuItem> */}
             </Select>
@@ -310,6 +337,17 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
             error={subtitleValue.isError}
           />
         </div>
+
+        {type.includes('file') &&
+          <>
+            <p style={{marginTop:"30px"}}>첨부파일</p>
+            <FileDropZone
+              {...{files, setFiles, setDeletedFiles}}
+              maxSize={MAX_FILE_SIZE} maxFiles={MAX_FILE_COUNT}
+              style={{marginTop:"10px"}}
+            />
+          </>
+        }
         
 
         {(type.includes("single") || type.includes("multiple") || type==="list_select") &&

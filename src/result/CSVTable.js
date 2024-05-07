@@ -17,7 +17,7 @@ import { CSVDownload, CSVLink } from "react-csv";
 
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 
-
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 /*
 title: 제목.csv 추출
@@ -92,6 +92,37 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
         }
     }
 
+
+    const onFileDownloadClick = async () => {
+        if(!checkedList || checkedList?.length===0){
+            alert("파일 다운로드할 사용자를 1명 이상 선택해주세요.")
+        }else {
+            let fileList = []
+            console.log(data)
+            checkedList.map(uid => {
+                data.map(item => {
+                    if(uid===item.id){
+                        // fileList.push(...item.result_files)
+                        if(item.result_files && item.result_files.length>0){
+                            item.result_files.map(async file => {
+                                const res = await fetch(file.url);
+                                const blob = await res.blob();
+                                const link = document.createElement('a');
+                                link.href = window.URL.createObjectURL(blob);
+                                link.download = `${item.realName}_${file.path.split("/")[5]}`
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            })
+                        }
+
+                    }
+                })
+            })
+        }
+    }
+
+
     if(isLoading)
     return<></>
 
@@ -128,6 +159,11 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
                 엑셀로 추출
             </CSVLink>
             </Button> 
+
+            <Button variant="contained" size="small" style={{backgroundColor:"rgb(0, 98, 196)" }} sx={{ml:"10px"}} onClick={onFileDownloadClick}>
+                <FileDownloadIcon style={{fontSize:"20px", marginRight:"4px"}} />
+                파일 다운로드
+            </Button>
         </div>
 
         <div className={styles.main_container} style={{marginTop:"10px"}}>

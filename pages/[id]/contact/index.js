@@ -35,7 +35,6 @@ const Contact = () => {
   const [hasUserReadTheMessage, setHasUserReadTheMessage] = useState(null)
 
   useEffect(()=>{
-    console.log(selectedIndex)
     if(openContent)
       setRepliedText(sortedData[selectedIndex]?.repliedText || "")
   },[selectedIndex,openContent])
@@ -45,7 +44,6 @@ const Contact = () => {
     //권한에 따른 데이터 받기
     const fetchData = async () => {
       let query
-      console.log(team)
       if(userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`)){
         query = await db.collection("team_admin").doc(team.id).collection("contact").orderBy("createdAt", 'desc').get()
       } else {
@@ -260,7 +258,7 @@ const Contact = () => {
               <div className={styles.control}>
                 {sortedData[selectedIndex]?.show ? <p>상태: 모두 공개</p> : <p>상태: 비공개</p>}
 
-                {userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`) &&
+                {(userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`) )&&
                   (!sortedData[selectedIndex]?.show ? 
                     <Tooltip title="모두 공개">
                       <IconButton onClick={onShowClick}>
@@ -275,7 +273,8 @@ const Contact = () => {
                     </Tooltip>
                   )
                 }
-                {userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`) &&
+
+                {(userData.roles.includes("super_admin")||userData.roles.includes(`${team.id}_super_admin`) )&&
                   <Tooltip title="삭제">
                     <IconButton onClick={onDeleteClick}>
                       <DeleteOutlineRoundedIcon style={{fontSize:"20px", cursor:"pointer"}} />

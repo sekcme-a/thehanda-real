@@ -4,7 +4,8 @@ import { firestore as db } from "firebase/firebase"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useState } from "react"
-import { uploadFilesToStorage } from "src/public/hooks/handleFiles"
+import { uploadFilesToStorage, uploadMultipleFilesAndGetDownloadURLs } from "src/public/hooks/handleFiles"
+import { STORAGE } from "src/public/hooks/storageCRUD"
 
 
 const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, setCalendar, formValues, setFormValues}) => {
@@ -34,31 +35,50 @@ const HandleSubmit = ({postValues, setPostValues,selectedImageList, calendar, se
       return false
     }
 
-    //자녀 프로그램이고 family타입이 없다면 , postValues.formData 맨앞에 family 타입 추가
-    // let newPostValues = postValues
-    // if(newPostValues.type==="children" && !newPostValues?.formData.find(obj => obj.type === 'family')){
-    //   newPostValues={
-    //     ...newPostValues,
-    //     formData: [
-    //       {
-    //         id:"family",
-    //         isRequired: true,
-    //         title: "가족구성원 선택",
-    //         subtitle: "신청할 가족구성원을 선택해주세요.",
-    //         type: "family",
-    //       },
-    //       ...newPostValues.formData
-    //     ]
-    //   }
-    // }
-
     setIsSubmitting(true)
+
+    let filesUrlPathList = []
+    let formData = postValues.formData
+    const hasFileIndex = postValues.formData?.findIndex(obj => Object.is(obj.type, "file"))
+    if(hasFileIndex!==-1){
+      //파일 폼이 있다면, 해당 파일들을 업로드하고 downloadUrl 저장
+      const filesData = await Promise.all(
+        postValues.formData[hasFileIndex].files?.map(async (file) => {
+          //이미 url 이 있는것들은 제외
+          if(!file.url){
+            const res = await uploadMultipleFilesAndGetDownloadURLs([file.data], `contents/${id}/${postId}/files`)
+            return {...res[0]}
+          }else return file
+        })
+      )
+
+      // if(filesData)
+      //   filesUrlPathList = await uploadMultipleFilesAndGetDownloadURLs(filesData, `contents/${id}/${postId}/files`)
+      
+
+      //삭제된 파일들은 삭제하기
+      if(postValues.formData[hasFileIndex].deletedFiles?.length>0){
+        await STORAGE.delete_files(postValues.formData[hasFileIndex].deletedFiles)
+      }
+      //formData 에 파일이 있을경우 처리
+      formData[hasFileIndex] = {
+        ...formData[hasFileIndex],
+        files: filesData
+      }
+    }else {
+      //파일 폼이 없다면, storage file폴더 비우기(없어도 비우기)
+      await STORAGE.delete_folder(`contents/${id}/${postId}/files`)
+    }
+
+
+
     const imagesUrlList = await uploadFilesToStorage(selectedImageList, `contents/${id}/${postId}/images`)
     
     const batch = db.batch()
 
     batch.set(db.collection("team").doc(id).collection(type).doc(postId),{
       ...postValues,
+      formData: formData,
       history: [{type:"create", date: new Date(), text:`"${userData.name}" 님에 의해 저장됨.`},...postValues.history],
       savedAt: new Date(),
       lastSaved: userData.name,

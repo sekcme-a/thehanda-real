@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const MuiTextField = ({
   //design option
-  label="label", sx={}, required, multiline, maxRows, rows, margin, fullWidth,color, 
+  label="label", sx={}, required, multiline, maxRows, rows, margin, dense, fullWidth,color, 
   placeholder, helperText,
   standard, filled, outlined, //standard for default
 
@@ -50,7 +50,8 @@ const MuiTextField = ({
   return(
     <TextField
       variant={outlined ? "outlined" : filled ? "filled" : "standard"}
-      {...{label, sx, required, multiline, maxRows, rows, margin,fullWidth, placeholder, color}}
+      {...{label, sx, required, multiline, maxRows, rows,fullWidth, placeholder, color}}
+      margin={margin ? margin : dense ? "dense" : "normal"}
 
       size={medium? "medium" : large ? "large" : "small"}
       color={secondary ? "secondary" : info ? "info" : warning ? "warning" : success ? "success" : "primary"}

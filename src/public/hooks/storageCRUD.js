@@ -81,6 +81,19 @@ export const STORAGE = {
     }
   },
 
+  delete_files: async (paths) => {
+    try{
+      await Promise.all(paths.map(async (path) => {
+        const fileRef = storage.ref().child(path)
+        if(fileRef)
+          await fileRef.delete();
+        else console.error(`파일이 존재하지 않습니다: ${path}`)
+      }))
+    }catch(e){
+      console.error("Error deleting files:", error)
+    }
+  },
+
   delete_folder: async (folderPath) => {
     try {
       const folderRef = storage.ref().child(folderPath);
@@ -103,6 +116,46 @@ export const STORAGE = {
     } catch (error) {
       console.error("Error deleting folder and its contents:", error);
     }
+  },
+
+  deleteFolderAndChildFolder: async (folderPath) => {
+    try {
+      const folderRef = storage.ref().child(folderPath);
+      const files = await folderRef.list()
+  
+      // Function to recursively delete folders
+      const deleteFolderRecursive = async (folderRef) => {
+        // List all items (files and subfolders) in the current folder
+        const files = await folderRef.listAll()
+  
+        // Delete all files in the folder
+        const deleteFilePromises = files.items?.map(async (file) => {
+          await file.delete();
+        });
+  
+        // Delete all subfolders recursively
+        const deleteFolderPromises = files.prefixes?.map(async (subfolderRef) => {
+          await deleteFolderRecursive(subfolderRef);
+        });
+  
+        // Wait for all file and subfolder deletions to complete
+        if(deleteFilePromises)
+          await Promise.all([...deleteFilePromises]);
+        if(deleteFolderPromises)
+          await Promise.all([...deleteFolderPromises])
+      };
+  
+      // Start the recursive deletion process
+      await deleteFolderRecursive(folderRef);
+  
+      // Finally, delete the top-level folder itself
+      await folderRef.delete();
+  
+      console.log(`Folder at path ${folderPath} and its contents deleted successfully`);
+    } catch (error) {
+      console.error("Error deleting folder and its contents:", error);
+    }
   }
+  
 
 };
