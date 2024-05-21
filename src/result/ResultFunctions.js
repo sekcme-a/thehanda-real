@@ -80,8 +80,7 @@ export const refine_result_data = async (data) => {
         }
         // 다중선택 핸들 & 파일 핸들
         else if (Array.isArray(value)) {
-          console.log()
-          if(typeof value === "object"){
+          if(typeof value === "object" && typeof value[0] !=="string"){
             //파일 일때
             const tempList = value.map(file => file.path.split("/")[5])
             obj[key] = tempList.join(",")

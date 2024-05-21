@@ -98,7 +98,6 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
             alert("파일 다운로드할 사용자를 1명 이상 선택해주세요.")
         }else {
             let fileList = []
-            console.log(data)
             checkedList.map(uid => {
                 data.map(item => {
                     if(uid===item.id){
@@ -199,7 +198,7 @@ const CSVTable = ({title, headers, data, type, docId, isChildrenMode, checkedLis
                 </thead>
 
                 <tbody>
-                    {sortedList?.map((item, index)=>{
+                    {sortedList && sortedList?.map((item, index)=>{
                         return(
                             <tr key={index}>
                                 {type==="programs" &&
