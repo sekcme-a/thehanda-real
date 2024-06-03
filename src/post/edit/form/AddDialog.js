@@ -307,7 +307,7 @@ const AddDialog = ({addFormData,editFormData, handleCloseDialog, formData, teamN
               {/* <MenuItem value="date_time">날짜/시간</MenuItem> */}
               <MenuItem value="phone_number">전화번호</MenuItem>
               <MenuItem value="address">주소</MenuItem>
-              <MenuItem value="file">파일</MenuItem>
+              {/* <MenuItem value="file">파일</MenuItem> */}
               {/* <MenuItem value="image">이미지</MenuItem>
               <MenuItem value="file">파일</MenuItem> */}
             </Select>
